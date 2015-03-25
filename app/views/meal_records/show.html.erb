@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Size:</strong>
+  <%= @meal_record.size %>
+</p>
+
+<p>
+  <strong>Carbs estimate:</strong>
+  <%= @meal_record.carbs_estimate %>
+</p>
+
+<p>
+  <strong>Photo:</strong>
+  <%= image_tag @meal_record.photo.url(:thumbnail) %>
+</p>
+
+<%= link_to 'Edit', edit_meal_record_path(@meal_record) %> |
+<%= link_to 'Back', meal_records_path %>
