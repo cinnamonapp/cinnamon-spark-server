@@ -87,5 +87,5 @@ CinnamonSparkServer::Application.configure do
     }
   }
 
-  Paperclip::Attachment.default_options[:s3_host_name] = 'cinnamon.spark.beta.s3.amazonaws.com'
+  Paperclip::Attachment.default_options[:s3_host_name] = 's3.amazonaws.com'
 end
