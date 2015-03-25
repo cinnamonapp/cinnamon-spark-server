@@ -86,4 +86,6 @@ CinnamonSparkServer::Application.configure do
       :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
     }
   }
+
+  Paperclip::Attachment.default_options[:s3_host_name] = 'cinnamon.spark.beta.s3.amazonaws.com'
 end
