@@ -4,4 +4,6 @@ class MealRecord < ActiveRecord::Base
     medium: "300x300>",
     large: "800x800>"
   }
+
+  belongs_to :user
 end

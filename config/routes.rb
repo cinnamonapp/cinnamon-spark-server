@@ -1,4 +1,11 @@
 CinnamonSparkServer::Application.routes.draw do
+
+  # Users
+  resources :users do
+    # Has many meal records
+    resources :meal_records
+  end
+
   resources :meal_records
 
   # The priority is based upon order of creation: first created -> highest priority.

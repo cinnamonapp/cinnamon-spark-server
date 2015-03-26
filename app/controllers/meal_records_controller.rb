@@ -1,10 +1,15 @@
 class MealRecordsController < ApplicationController
   before_action :set_meal_record, only: [:show, :edit, :update, :destroy]
+  before_action :set_user
 
   # GET /meal_records
   # GET /meal_records.json
   def index
-    @meal_records = MealRecord.all
+    if params[:user_id]
+      @meal_records = @user.meal_records if @user
+    else
+      @meal_records = MealRecord.all
+    end
   end
 
   # GET /meal_records/1
@@ -23,8 +28,13 @@ class MealRecordsController < ApplicationController
 
   # POST /meal_records
   # POST /meal_records.json
+  # POST /users/:user_id/meal_records.json
   def create
-    @meal_record = MealRecord.new(meal_record_params)
+
+    meal_records = MealRecord
+    meal_records = @user.meal_records if @user
+
+    @meal_record = meal_records.new(meal_record_params)
 
     respond_to do |format|
       if @meal_record.save
@@ -65,6 +75,11 @@ class MealRecordsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_meal_record
       @meal_record = MealRecord.find(params[:id])
+    end
+
+    def set_user
+
+      @user = User.find_by_device_uuid(params[:user_id]) || User.find_by_id(params[:user_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
