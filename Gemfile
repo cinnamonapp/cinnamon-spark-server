@@ -34,12 +34,15 @@ gem 'paperclip'
 # Upload files on cdn
 gem 'aws-sdk'
 
+# Postgresql db
+gem 'pg'
+
+# Lots of stuff for iOS
+# gem 'helios'
+
 group :production do
   # Assets on heroku
   gem 'rails_12factor'
-
-  # Postgresql db
-  gem 'pg'
 end
 
 group :development do

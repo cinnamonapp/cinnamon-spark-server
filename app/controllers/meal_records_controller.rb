@@ -7,6 +7,9 @@ class MealRecordsController < ApplicationController
   def index
     if params[:user_id]
       @meal_records = @user.meal_records if @user
+    elsif params[:except_user_id]
+      user = User.find_by_device_uuid(params[:except_user_id]) || User.find_by_id(params[:except_user_id])
+      @meal_records = MealRecord.where("user_id != ?", user.id)
     else
       @meal_records = MealRecord.all
     end

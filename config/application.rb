@@ -19,5 +19,9 @@ module CinnamonSparkServer
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+
+    # config.middleware.use Helios::Application do
+    #   service :push_notification, apn_certificate: 'path/to/apple_push_notification.pem', apn_environment: Rails.env
+    # end
   end
 end
