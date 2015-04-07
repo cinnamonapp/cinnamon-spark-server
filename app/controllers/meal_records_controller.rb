@@ -13,6 +13,8 @@ class MealRecordsController < ApplicationController
     else
       @meal_records = MealRecord.all
     end
+
+    @meal_records = @meal_records.order(:created_at => :desc)
   end
 
   # GET /meal_records/1

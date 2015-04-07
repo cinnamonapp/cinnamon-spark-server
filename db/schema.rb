@@ -11,7 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150326110804) do
+ActiveRecord::Schema.define(version: 20150407092532) do
+
+  create_table "in_app_purchase_products", force: true do |t|
+    t.string  "product_identifier",                null: false
+    t.string  "type",                              null: false
+    t.string  "title",                             null: false
+    t.string  "description"
+    t.float   "price"
+    t.string  "price_locale"
+    t.boolean "is_enabled",         default: true
+  end
+
+  add_index "in_app_purchase_products", ["product_identifier"], name: "in_app_purchase_products_product_identifier_index", using: :btree
+  add_index "in_app_purchase_products", ["type"], name: "in_app_purchase_products_type_index", using: :btree
+
+  create_table "in_app_purchase_schema_info", id: false, force: true do |t|
+    t.integer "version", default: 0, null: false
+  end
 
   create_table "meal_records", force: true do |t|
     t.integer  "size"
@@ -29,6 +46,11 @@ ActiveRecord::Schema.define(version: 20150326110804) do
     t.string   "device_uuid"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "username"
+    t.string   "profile_picture_file_name"
+    t.string   "profile_picture_content_type"
+    t.integer  "profile_picture_file_size"
+    t.datetime "profile_picture_updated_at"
   end
 
 end

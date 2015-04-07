@@ -2,7 +2,9 @@
 
 <p>
   <strong>Device uuid:</strong>
-  <%= @user.device_uuid %>
+  <%= @user.device_uuid %><br>
+  <%= @user.username %><br>
+  <%= image_tag @user.profile_picture %>
 </p>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |

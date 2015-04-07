@@ -17,7 +17,7 @@
       <tr>
         <td><%= meal_record.size %></td>
         <td><%= meal_record.carbs_estimate %></td>
-        <td><%= meal_record.photo %></td>
+        <td><%= image_tag meal_record.photo.url(:thumbnail) %></td>
         <td><%= link_to 'Show', meal_record %></td>
         <td><%= link_to 'Edit', edit_meal_record_path(meal_record) %></td>
         <td><%= link_to 'Destroy', meal_record, method: :delete, data: { confirm: 'Are you sure?' } %></td>
