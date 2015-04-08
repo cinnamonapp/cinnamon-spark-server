@@ -3,7 +3,9 @@
 <table>
   <thead>
     <tr>
-      <th>Device uuid</th>
+      <th>Id</th>
+      <th>Username</th>
+      <th>Profile picture</th>
       <th></th>
       <th></th>
       <th></th>
@@ -13,10 +15,13 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td><%= user.device_uuid %></td>
+        <td><%= user.id %></td>
+        <td><%= user.username %></td>
+        <td><%= image_tag user.profile_picture.url(:micro) %></td>
         <td><%= link_to 'Show', user %></td>
         <td><%= link_to 'Edit', edit_user_path(user) %></td>
         <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Meal Records', user_meal_records_path(user) %></td>
       </tr>
     <% end %>
   </tbody>
