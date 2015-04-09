@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th>Title</th>
       <th>Size</th>
       <th>Carbs estimate</th>
       <th>Photo</th>
@@ -15,6 +16,7 @@
   <tbody>
     <% @meal_records.each do |meal_record| %>
       <tr>
+        <td><%= meal_record.title %></td>
         <td><%= meal_record.size %></td>
         <td><%= meal_record.carbs_estimate %></td>
         <td><%= image_tag meal_record.photo.url(:thumbnail) %></td>

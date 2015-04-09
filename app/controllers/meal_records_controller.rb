@@ -85,12 +85,11 @@ class MealRecordsController < ApplicationController
     end
 
     def set_user
-
       @user = User.find_by_device_uuid(params[:user_id]) || User.find_by_id(params[:user_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def meal_record_params
-      params.require(:meal_record).permit(:size, :carbs_estimate, :photo)
+      params.require(:meal_record).permit(:title, :size, :carbs_estimate, :photo)
     end
 end
