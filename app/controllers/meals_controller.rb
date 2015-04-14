@@ -28,6 +28,8 @@ class MealsController < ApplicationController
           # add it to the same group of the previous meal
           meal = @meals.last
           meal.meal_records.push meal_record
+
+          meal.created_at = meal_record.created_at if meal_record.created_at < meal.created_at
         else
           # create a new group
           meal = Meal.new(
