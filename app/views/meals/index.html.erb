@@ -2,7 +2,7 @@
 
   <%= time_ago_in_words(meal.created_at + 2.hours) %> ago - At <%= (meal.created_at + 2.hours).strftime("%l:%M %P") %>
   <hr>
-  <% meal.meal_records.each do |meal_record| %>
+  <% meal.meal_records.reverse.each do |meal_record| %>
     <%= link_to image_tag(meal_record.photo.url(:thumbnail)), meal_record_url(meal_record) %>
   <% end %>
 
