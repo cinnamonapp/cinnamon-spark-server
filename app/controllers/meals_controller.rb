@@ -37,7 +37,6 @@ class MealsController < ApplicationController
 
           @meals.push meal
         end
-
       else
         # Initialize the first Meal!
         meal = Meal.new(
@@ -46,7 +45,6 @@ class MealsController < ApplicationController
         )
 
         @meals.push meal
-
       end
     end
   end
