@@ -24,7 +24,7 @@ class MealsController < ApplicationController
         previous_meal_record = meal_records[index - 1]
 
         # if the creation date is within an hour after the creation date of the previous meal
-        if (meal_record.created_at - previous_meal_record.created_at).abs <= 30.minutes
+        if (meal_record.created_at - previous_meal_record.created_at).abs <= 45.minutes
           # add it to the same group of the previous meal
           meal = @meals.last
           meal.meal_records.push meal_record
