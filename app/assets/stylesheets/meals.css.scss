@@ -35,7 +35,7 @@
       width: 12.5%;
 
       img{
-        -webkit-transform: scale(2);
+        -webkit-transform: scale(3);
       }
     }
 
@@ -44,7 +44,7 @@
       width: 25%;
 
       img{
-        -webkit-transform: scale(1.8);
+        -webkit-transform: scale(2);
       }
     }
 
@@ -66,5 +66,5 @@
     border-color: lightyellow;
   }
   .meal.meal-carb-3{
-    border-color: red;
+    border-color: rgb(255, 127, 127);
   }
