@@ -1,0 +1,11 @@
+<html>
+  <head>
+  </head>
+  <body>
+    Hey guys, <br><br>
+
+    an <%= link_to "amazing user", user_url(@user, host: "https://murmuring-dusk-8873.herokuapp.com") %> has just uploaded a new meal_record (aka dish). <br><br>
+
+    He's waiting for the carbs estimation to be sent to him. <%= link_to "Go here", edit_meal_record_url(@meal_record, easy_mode: true, host: "https://murmuring-dusk-8873.herokuapp.com") %> and tell wether it's low, medium or high in carbs!
+  </body>
+</html>

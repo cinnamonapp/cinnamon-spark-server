@@ -46,7 +46,7 @@
 
   <div class="field">
       <%= f.label :user %>
-      <%= link_to @meal_record.user.username, user_url(@meal_record.user) %>
+      <%= link_to @meal_record.user.username, user_url(@meal_record.user) if @meal_record.user %>
   </div>
 
   <div class="actions">
