@@ -16,6 +16,8 @@ class MealRecordsController < ApplicationController
       @meal_records = MealRecord.all
     end
 
+    @meal_records = @meal_records.limit(params[:limit]) if params[:limit]
+
     @meal_records = @meal_records.order(:created_at => :desc)
   end
 
