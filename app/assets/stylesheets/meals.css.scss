@@ -30,6 +30,10 @@
       }
     }
 
+    &:first-child:last-child{
+      float: none;
+    }
+
     &.meal-size-1{
       height: 25%;
       width: 25%;
