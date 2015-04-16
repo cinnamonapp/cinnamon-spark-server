@@ -1,14 +1,19 @@
 <% @meals.each do |meal| %>
 
-  <%= time_ago_in_words(meal.created_at + 2.hours) %> ago - At <%= (meal.created_at + 2.hours).strftime("%l:%M %P") %>
-  <hr>
-  <% meal.meal_records.reverse.each do |meal_record| %>
-    <div class="meal meal_size_<%= meal_record.size %> meal_carb_<%= meal_record.carbs_estimate %>">
-      <%= image_tag(meal_record.photo.url(:thumbnail)) %>
-    </div>
-  <% end %>
 
-  <br><br>
+  <div class="section-title">
+    <%= time_ago_in_words(meal.created_at) %> ago - At <%= (meal.created_at + 2.hours).strftime("%l:%M %P") %>
+  </div>
+
+  <div class="meal-records clearfix">
+    <% meal.meal_records.sort{|a, b| b.size <=> a.size}.each do |meal_record| %>
+      <div class="meal-container meal-size-<%= meal_record.size %>">
+        <div class="meal meal-carb-<%= meal_record.carbs_estimate %>">
+          <%= image_tag(meal_record.photo.url(:medium)) %>
+        </div>
+      </div>
+    <% end %>
+  </div>
 
 <% end %>
 
@@ -16,52 +21,5 @@
 <style media="screen">
   html,body{
     background: rgb(239, 242, 230);
-  }
-
-  .meal{
-    display: inline-block;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 8px solid rgb(239, 242, 230);
-    box-shadow: 0px 0px 0px 2px white;
-  }
-  .meal img{
-    display: block;
-    width: 100%;
-  }
-
-  .meal.meal_size_1{
-    height: 50px;
-    width: 50px;
-  }
-  .meal.meal_size_1>img{
-    -webkit-transform: scale(2);
-  }
-
-  .meal.meal_size_2{
-    height: 75px;
-    width: 75px;
-  }
-  .meal.meal_size_2>img{
-    -webkit-transform: scale(1.8);
-  }
-
-  .meal.meal_size_3{
-    height: 100px;
-    width: 100px;
-  }
-  .meal.meal_size_3>img{
-    -webkit-transform: scale(1.2);
-  }
-
-
-  .meal.meal_carb_1{
-    border-color: lightgreen;
-  }
-  .meal.meal_carb_2{
-    border-color: lightyellow;
-  }
-  .meal.meal_carb_3{
-    border-color: red;
   }
 </style>
