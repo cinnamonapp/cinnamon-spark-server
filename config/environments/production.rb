@@ -65,11 +65,11 @@ CinnamonSparkServer::Application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
   ActionMailer::Base.smtp_settings = {
-    :address        => 'smtp.zoho.com',
-    :port           => '465',
+    :address        => 'smtp.gmail.com',
+    :port           => '587',
     :authentication => :plain,
-    :user_name      => 'alessio@cinnamon-app.com',
-    :password       => 'snaphealth',
+    :user_name      => ENV[:MAILER_GMAIL_USERNAME],
+    :password       => ENV[:MAILER_GMAIL_PASSWORD],
     :domain         => 'cinnamon-app.com'
   }
 
