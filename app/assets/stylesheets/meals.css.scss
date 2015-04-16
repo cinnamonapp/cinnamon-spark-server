@@ -17,6 +17,7 @@
     box-sizing: border-box;
     display: block;
     float: left;
+    margin: auto;
 
     .meal{
       border-radius: 50%;
@@ -32,6 +33,11 @@
 
     &:first-child:last-child{
       float: none;
+
+      &.meal-size-1{
+        padding-top: 50px;
+        padding-bottom: 50px;
+      }
     }
 
     &.meal-size-1{
