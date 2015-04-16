@@ -69,7 +69,7 @@ class MealsController < ApplicationController
         meal_denom += (carbs_estimate)
       end
 
-      meal.carbs_estimate = (meal_nom / meal_denom).ceil
+      meal.carbs_estimate = (meal_nom.to_f / meal_denom.to_f).ceil
     end
 
 

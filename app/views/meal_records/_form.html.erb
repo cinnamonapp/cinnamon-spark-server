@@ -12,22 +12,50 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
+    <% if @meal_record.photo.present? %>
+      <%= image_tag @meal_record.photo.url(:medium) %>
+    <% end %>
+    <% unless params[:easy_mode] %>
+      <%= f.file_field :photo %>
+    <% end %>
   </div>
+
+  <% if params[:easy_mode] %>
+    <div class="field">
+      <%= f.label :carbs_estimate %>
+      <label style="padding: 10px; 5px"><%= f.radio_button :carbs_estimate, 1 %> Low</label>
+      <label style="padding: 10px; 5px"><%= f.radio_button :carbs_estimate, 2 %> Medium</label>
+      <label style="padding: 10px; 5px"><%= f.radio_button :carbs_estimate, 3 %> High</label>
+    </div>
+
+  <% else %>
+    <div class="field">
+      <%= f.label :title %><br>
+      <%= f.text_field :title %>
+    </div>
+    <div class="field">
+      <%= f.label :size %><br>
+      <%= f.number_field :size %>
+    </div>
+    <div class="field">
+      <%= f.label :carbs_estimate %><br>
+      <%= f.number_field :carbs_estimate %>
+    </div>
+
+  <% end %>
+
   <div class="field">
-    <%= f.label :size %><br>
-    <%= f.number_field :size %>
+      <%= f.label :user %>
+      <%= link_to @meal_record.user.username, user_url(@meal_record.user) %>
   </div>
-  <div class="field">
-    <%= f.label :carbs_estimate %><br>
-    <%= f.number_field :carbs_estimate %>
-  </div>
-  <div class="field">
-    <%= f.label :photo %><br>
-    <%= f.file_field :photo %>
-  </div>
+
   <div class="actions">
-    <%= f.submit %>
+    <%= f.button :class => "btn btn-large btn-primary" %>
   </div>
 <% end %>
+
+<style media="screen">
+  body{
+    padding: 10px;
+  }
+</style>
