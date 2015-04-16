@@ -2,10 +2,11 @@
 
 
   <div class="section-title">
-    <%= time_ago_in_words(meal.created_at) %> ago - At <%= (meal.created_at + 2.hours).strftime("%l:%M %P") %>
+    <%= time_ago_in_words(meal.created_at) %> ago
+    <span style="float: right;"><%= (meal.created_at + 2.hours).strftime("%l:%M %P") %></span>
   </div>
 
-  <div class="meal-records clearfix">
+  <div class="meal-records clearfix meal-records-carb-<%= meal.carbs_estimate %>">
     <% meal.meal_records.sort{|a, b| b.size <=> a.size}.each do |meal_record| %>
       <div class="meal-container meal-size-<%= meal_record.size %>">
         <div class="meal meal-carb-<%= meal_record.carbs_estimate %>">

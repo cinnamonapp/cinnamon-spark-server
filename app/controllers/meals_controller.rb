@@ -1,5 +1,5 @@
 class Meal
-  attr_accessor :created_at, :meal_records
+  attr_accessor :created_at, :meal_records, :carbs_estimate
 
   def initialize(params={})
     self.created_at = params[:created_at] || nil
@@ -49,6 +49,31 @@ class MealsController < ApplicationController
         @meals.push meal
       end
     end
+
+    # Calculate meal average
+
+    # For each meal
+    @meals.each do |meal|
+      # Set 2 variables: meal_nom and meal_denom # We assume there are meal records
+      meal_nom = 0
+      meal_denom = 0
+
+      # for each meal record
+      meal.meal_records.each do |meal_record|
+        size = meal_record.size || 2
+        carbs_estimate = meal_record.carbs_estimate || 2
+        # multiply size per carbs_estimate # add it to the nominator
+        meal_nom += (size * carbs_estimate)
+
+        # add carbs estimate in denominator
+        meal_denom += (carbs_estimate)
+      end
+
+      meal.carbs_estimate = (meal_nom / meal_denom).ceil
+    end
+
+
+
   end
 
   private

@@ -8,8 +8,17 @@
   }
 
   .meal-records{
-    background-color: lightyellow;
     padding: 5px;
+
+    &.meal-records-carb-1{
+      background-color: lightgreen;
+    }
+    &.meal-records-carb-2{
+      background-color: lightyellow;
+    }
+    &.meal-records-carb-3{
+      background-color: rgb(255, 127, 127);
+    }
   }
 
   .meal-container{
@@ -23,7 +32,7 @@
       border-radius: 50%;
       overflow: hidden;
       border: 5px solid rgb(239, 242, 230);
-      box-shadow: 0px 0px 0px 2px white;
+      box-shadow: 0px 0px 0px 3px white;
 
       img{
         display: block;
@@ -35,8 +44,12 @@
       float: none;
 
       &.meal-size-1{
-        padding-top: 50px;
-        padding-bottom: 50px;
+        margin-top: 50px;
+        margin-bottom: 50px;
+      }
+      &.meal-size-2{
+        margin-top: 20px;
+        margin-bottom: 20px;
       }
     }
 
