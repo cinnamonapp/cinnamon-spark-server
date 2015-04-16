@@ -45,7 +45,7 @@ class MealRecordsController < ApplicationController
 
     respond_to do |format|
       if @meal_record.save
-        Notifier.send_new_meal_record_uploaded_notification(@user, @meal_record).deliver_now
+        Notifier.send_new_meal_record_uploaded_notification(@user, @meal_record).deliver
 
         format.html { redirect_to @meal_record, notice: 'Meal record was successfully created.' }
         format.json { render action: 'show', status: :created, location: @meal_record }
