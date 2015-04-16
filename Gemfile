@@ -21,6 +21,9 @@ gem 'therubyracer', platforms: :ruby
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
+# Using amazon to send emails
+gem "aws-ses", "~> 0.5.0", :require => 'aws/ses'
+
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 
