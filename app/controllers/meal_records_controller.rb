@@ -29,6 +29,7 @@ class MealRecordsController < ApplicationController
   # GET /meal_records/new
   def new
     @meal_record = MealRecord.new
+    # Notifier.send_new_meal_record_uploaded_notification(User.first, MealRecord.first).deliver
   end
 
   # GET /meal_records/1/edit

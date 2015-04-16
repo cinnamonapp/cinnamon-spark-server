@@ -17,7 +17,17 @@ CinnamonSparkServer::Application.configure do
   config.action_mailer.raise_delivery_errors = false
 
   # Open emails as web pages instead of really sending them
-  config.action_mailer.delivery_method = :letter_opener
+  # config.action_mailer.delivery_method = :letter_opener
+  ActionMailer::Base.smtp_settings = {
+    :address        => 'smtp.zoho.com',
+    :port           => '465',
+    :authentication => :plain,
+    :user_name      => "alessio@cinnamon-app.com",
+    :password       => "snaphealth"
+  }
+
+  ActionMailer::Base.delivery_method = :smtp
+
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
