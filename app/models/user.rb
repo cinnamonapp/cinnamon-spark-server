@@ -14,9 +14,9 @@ class User < ActiveRecord::Base
       notification = Houston::Notification.new(device: self.push_notification_token)
       notification.alert = message
 
-      return notification
+      CinnamonSparkServer::Application::APN.push notification
     else
-      raise "There is no push notification token for user (id=#{self.id})"
+      # raise "There is no push notification token for user (id=#{self.id})"
     end
   end
 
