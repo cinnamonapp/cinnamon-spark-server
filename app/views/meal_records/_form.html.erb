@@ -21,6 +21,17 @@
   </div>
 
   <% if params[:easy_mode] %>
+
+    <div class="field">
+        <%= f.label :title %>
+        <%= @meal_record.title %>
+    </div>
+
+    <div class="field">
+        <%= f.label :size %>
+        <%= @meal_record.size %>
+    </div>
+
     <div class="field">
       <%= f.label :carbs_estimate %>
       <label style="padding: 10px; 5px"><%= f.radio_button :carbs_estimate, 1 %> Low</label>
