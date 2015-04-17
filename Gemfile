@@ -42,8 +42,8 @@ gem 'aws-sdk'
 # Postgresql db
 gem 'pg'
 
-# Lots of stuff for iOS
-# gem 'helios'
+# Push notifications only for iOS
+gem 'houston'
 
 group :production do
   # Assets on heroku

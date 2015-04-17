@@ -9,4 +9,15 @@ class User < ActiveRecord::Base
     large: "800x800>"
   }
 
+  def send_push_notification(message="")
+    if self.push_notification_token.present?
+      notification = Houston::Notification.new(device: self.push_notification_token)
+      notification.alert = message
+
+      return notification
+    else
+      raise "There is no push notification token for user (id=#{self.id})"
+    end
+  end
+
 end
