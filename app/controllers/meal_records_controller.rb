@@ -65,7 +65,7 @@ class MealRecordsController < ApplicationController
   def update
     respond_to do |format|
       if @meal_record.update(meal_record_params)
-        @meal_record.user.send_push_notification("Carbs are there. Check now")
+        @meal_record.user.send_push_notification("We have your carbs now!")
 
         format.html { redirect_to @meal_record, notice: 'Meal record was successfully updated.' }
         format.json { head :no_content }

@@ -23,41 +23,39 @@
   <% if params[:easy_mode] %>
 
     <div class="field">
-        <%= f.label :title %>
-        <%= @meal_record.title %>
-    </div>
-
-    <div class="field">
-        <%= f.label :size %>
-        <%= @meal_record.size %>
-    </div>
-
-    <div class="field">
-      <%= f.label :carbs_estimate %>
-      <label style="padding: 10px; 5px"><%= f.radio_button :carbs_estimate, 1 %> Low</label>
-      <label style="padding: 10px; 5px"><%= f.radio_button :carbs_estimate, 2 %> Medium</label>
-      <label style="padding: 10px; 5px"><%= f.radio_button :carbs_estimate, 3 %> High</label>
+        <%= f.label :hashtags %>
+        <%= @meal_record.title || "No hastags added" %>
     </div>
 
   <% else %>
+
     <div class="field">
       <%= f.label :title %><br>
       <%= f.text_field :title %>
-    </div>
-    <div class="field">
-      <%= f.label :size %><br>
-      <%= f.number_field :size %>
-    </div>
-    <div class="field">
-      <%= f.label :carbs_estimate %><br>
-      <%= f.number_field :carbs_estimate %>
     </div>
 
   <% end %>
 
   <div class="field">
+      <%= f.label :size %>
+      <label style="padding: 10px; 5px"><%= f.radio_button :size, 1 %> <%= MealRecord::SIZES[0] %></label>
+      <label style="padding: 10px; 5px"><%= f.radio_button :size, 2 %> <%= MealRecord::SIZES[1] %></label>
+      <label style="padding: 10px; 5px"><%= f.radio_button :size, 3 %> <%= MealRecord::SIZES[2] %></label>
+  </div>
+
+  <div class="field">
+    <%= f.label :carbs_estimate %>
+    <label style="padding: 10px; 5px"><%= f.radio_button :carbs_estimate, 1 %> <%= MealRecord::CARBS_ESTIMATE[0] %></label>
+    <label style="padding: 10px; 5px"><%= f.radio_button :carbs_estimate, 2 %> <%= MealRecord::CARBS_ESTIMATE[1] %></label>
+    <label style="padding: 10px; 5px"><%= f.radio_button :carbs_estimate, 3 %> <%= MealRecord::CARBS_ESTIMATE[2] %></label>
+
+    <small>How many grams of carbs are there in a cup of this?</small>
+  </div>
+
+  <div class="field">
       <%= f.label :user %>
       <%= link_to @meal_record.user.username, user_url(@meal_record.user) if @meal_record.user %>
+      <%= "No user" unless @meal_record.user %>
   </div>
 
   <div class="actions">

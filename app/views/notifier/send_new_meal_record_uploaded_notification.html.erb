@@ -2,10 +2,12 @@
   <head>
   </head>
   <body>
-    Hey guys, <br><br>
+    <%= link_to (@user.username || "An amazing user"), user_url(@user) %> has just uploaded a new dish (his <%= @user.meal_records.count.ordinalize %>).<br><br>
 
-    an <%= link_to "amazing user", user_url(@user, host: "https://murmuring-dusk-8873.herokuapp.com") %> has just uploaded a new meal_record (aka dish). <br><br>
+    Do you want to evaluate the carbs of <%= (@user.username || "the user") %>'s dish? <%= link_to "Go here", edit_meal_record_url(@meal_record, easy_mode: true) %>
 
-    He's waiting for the carbs estimation to be sent to him. <%= link_to "Go here", edit_meal_record_url(@meal_record, easy_mode: true, host: "https://murmuring-dusk-8873.herokuapp.com") %> and tell wether it's low, medium or high in carbs!
+    <hr>
+
+    <%= link_to image_tag(@meal_record.photo.url(:medium)), edit_meal_record_url(@meal_record, easy_mode: true) %>
   </body>
 </html>
