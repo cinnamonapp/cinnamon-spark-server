@@ -21,6 +21,11 @@ class MealRecordsController < ApplicationController
     @meal_records = @meal_records.order(:created_at => :desc)
   end
 
+  # GET /meal_records/estimate
+  def estimate
+    @meal_records = MealRecord.where("meal_records.carbs_estimate IS NULL").order(:created_at => :desc)
+  end
+
   # GET /meal_records/1
   # GET /meal_records/1.json
   def show
@@ -67,7 +72,10 @@ class MealRecordsController < ApplicationController
       if @meal_record.update(meal_record_params)
         @meal_record.user.send_push_notification("We have your carbs now!")
 
-        format.html { redirect_to @meal_record, notice: 'Meal record was successfully updated.' }
+        format.html {
+          redirect_to @meal_record, notice: 'Meal record was successfully updated.' unless params[:easy_mode]
+          redirect_to meal_records_estimate_url, notice: 'Meal record was successfully updated.' if params[:easy_mode]
+        }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

@@ -9,7 +9,10 @@ CinnamonSparkServer::Application.routes.draw do
 
   end
 
+  get 'meal_records/estimate' => 'meal_records#estimate', as: 'meal_records_estimate'
+
   resources :meal_records
+
 
 
   # The priority is based upon order of creation: first created -> highest priority.

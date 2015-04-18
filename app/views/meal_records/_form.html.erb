@@ -22,6 +22,8 @@
 
   <% if params[:easy_mode] %>
 
+    <input type="hidden" name="easy_mode" value="1">
+
     <div class="field">
         <%= f.label :hashtags %>
         <%= @meal_record.title || "No hastags added" %>
