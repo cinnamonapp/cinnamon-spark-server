@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
     if self.push_notification_token.present?
       notification = Houston::Notification.new(device: self.push_notification_token)
       notification.alert = message
+      # Add a sound
+      notification.sound = "sosumi.aiff"
 
       CinnamonSparkServer::Application::APN.push notification
     else
