@@ -74,10 +74,10 @@ class MealRecordsController < ApplicationController
           "Hello beauty, we have your carbs!",
           "Carbs are there. Check now!",
           "FYI, carbs are there now!",
-          "#{MealRecord::CARBS_ESTIMATE[@meal_record.carbs_count - 1]} in carbs. Make that count!",
+          "#{MealRecord::CARBS_ESTIMATE[@meal_record.carbs_estimate - 1]} in carbs. Make that count!",
           "Enjoying your day? Carbs are there now",
           "You and your carbs are amazing. Have a look",
-          "#{MealRecord::CARBS_ESTIMATE[@meal_record.carbs_count - 1]} in carbs. That was soooo good!",
+          "#{MealRecord::CARBS_ESTIMATE[@meal_record.carbs_estimate - 1]} in carbs. That was soooo good!",
           "I wish I had that dish too. Check your carbs now",
           "I am speechless. See how you great did"
         ]
