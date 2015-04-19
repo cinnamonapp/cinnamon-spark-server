@@ -70,7 +70,8 @@ class MealRecordsController < ApplicationController
   def update
     respond_to do |format|
       if @meal_record.update(meal_record_params)
-        @meal_record.user.send_push_notification("We have your carbs now!")
+        array = ["Hello beauty, we have your carbs!", "Carbs are there. Check now!", "FYI, carbs are there now!", "Enjoying your day? Carbs are there now"]
+        @meal_record.user.send_push_notification(array.sample)
 
         format.html {
           redirect_to @meal_record, notice: 'Meal record was successfully updated.' unless params[:easy_mode]
