@@ -70,7 +70,24 @@ class MealRecordsController < ApplicationController
   def update
     respond_to do |format|
       if @meal_record.update(meal_record_params)
-        array = ["Hello beauty, we have your carbs!", "Carbs are there. Check now!", "FYI, carbs are there now!", "Enjoying your day? Carbs are there now"]
+        array = [
+          "Hello beauty, we have your carbs!",
+          "Carbs are there. Check now!",
+          "FYI, carbs are there now!",
+          "#{MealRecord::CARBS_ESTIMATE[@meal_record.carbs_count - 1]} in carbs. Make that count!",
+          "Enjoying your day? Carbs are there now",
+          "You and your carbs are amazing. Have a look",
+          "#{MealRecord::CARBS_ESTIMATE[@meal_record.carbs_count - 1]} in carbs. That was soooo good!",
+          "I wish I had that dish too. Check your carbs now",
+          "I am speechless. See how you great did"
+        ]
+
+        if @meal_record.carbs_estimate == 1
+          array.push "Low in carbs. AMAZING!"
+          array.push "Low in carbs. Couldn't do better!"
+          array.push "That low in carbs really made my day! Check that out"
+        end
+
         @meal_record.user.send_push_notification(array.sample)
 
         format.html {
