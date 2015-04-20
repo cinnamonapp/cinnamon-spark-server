@@ -5,8 +5,8 @@
     <%= time_ago_in_words(meal.created_at) %> ago
     <span style="float: right;"><%= (meal.created_at + 2.hours).strftime("%l:%M %P") %></span>
   </div>
-  
-  <div class="meal-records clearfix meal-records-carb-<%= (meal.carbs_estimate.compare_to(30..50) + 2) %>">
+
+  <div class="meal-records clearfix meal-records-carb-<%= (meal.carbs_estimate.compare_to(30..50) + 2) %>" title="<%= meal.carbs_estimate %>">
     <% meal.meal_records.sort{|a, b| b.size <=> a.size}.each do |meal_record| %>
       <div class="meal-container meal-size-<%= meal_record.size %>">
         <div class="meal meal-carb-<%= meal_record.carbs_estimate %>">
