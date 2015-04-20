@@ -47,8 +47,10 @@ class Range
       response = false
 
       if self.last > range.last
-        deltalast   = self.last  - range.last
-        deltafirst  = self.first - range.first
+        baseline = range.last
+        
+        deltalast   = self.last - baseline
+        deltafirst  = baseline  - self.first
         response = deltalast > deltafirst
       end
 
@@ -59,8 +61,10 @@ class Range
       response = false
 
       if self.first < range.first
-        deltafirst  = range.first - self.first
-        deltalast   = range.last  - self.last
+        baseline = range.first
+
+        deltafirst  = baseline - self.first
+        deltalast   = self.last - baseline
 
         response = deltafirst > deltalast
       end
