@@ -34,7 +34,6 @@ class MealRecordsController < ApplicationController
   # GET /meal_records/new
   def new
     @meal_record = MealRecord.new
-    # Notifier.send_new_meal_record_uploaded_notification(User.first, MealRecord.first).deliver
   end
 
   # GET /meal_records/1/edit
@@ -88,7 +87,10 @@ class MealRecordsController < ApplicationController
           array.push "That low in carbs really made my day! Check that out"
         end
 
-        @meal_record.user.send_push_notification(array.sample)
+        @meal_record.user.send_push_notification(array.sample,
+          content_available: true,
+          custom_data: {meal_record_id: @meal_record.id}
+        )
 
         format.html {
           redirect_to @meal_record, notice: 'Meal record was successfully updated.' unless params[:easy_mode]

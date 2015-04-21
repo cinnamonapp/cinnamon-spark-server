@@ -10,7 +10,9 @@
     <% meal.meal_records.sort{|a, b| b.size <=> a.size}.each do |meal_record| %>
       <div class="meal-container meal-size-<%= meal_record.size %>">
         <div class="meal meal-carb-<%= meal_record.carbs_estimate %>">
-          <%= image_tag(meal_record.photo.url(:medium)) %>
+          <a href="#<%= meal_record.id %>">
+            <%= image_tag(meal_record.photo.url(:medium)) %>
+          </a>
         </div>
       </div>
     <% end %>

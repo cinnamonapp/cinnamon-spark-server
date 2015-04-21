@@ -9,12 +9,14 @@ class User < ActiveRecord::Base
     large: "800x800>"
   }
 
-  def send_push_notification(message="")
-    if self.push_notification_token.present?
+  def send_push_notification(message, options={})
+    if self.push_notification_token.present? && message.present?
       notification = Houston::Notification.new(device: self.push_notification_token)
       notification.alert = message
-      # Add a sound
+      
       notification.sound = "sosumi.aiff"
+      notification.content_available = true if options[:content_available]
+      notification.custom_data = options[:custom_data] if options[:custom_data]
 
       CinnamonSparkServer::Application::APN.push notification
     else
