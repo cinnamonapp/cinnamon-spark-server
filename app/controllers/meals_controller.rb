@@ -18,7 +18,7 @@ class Meal
 end
 
 class MealsController < ApplicationController
-  before_filter :set_user, :only => :index
+  before_filter :set_user, :only => [:index, :week_view]
 
   def index
     # Prepare an array of meals
