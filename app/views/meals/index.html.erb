@@ -1,3 +1,17 @@
+<div id="ptr">
+  <!-- Pull down arrow indicator -->
+  <span class="genericon genericon-next">&#8595;</span>
+
+  <!-- CSS-based loading indicator -->
+  <div class="loading">
+    <span id="l1"></span>
+    <span id="l2"></span>
+    <span id="l3"></span>
+  </div>
+</div>
+
+<div id="content">
+
 <% @meals.each do |meal| %>
 
 
@@ -19,6 +33,7 @@
   </div>
 
 <% end %>
+</div>
 
 
 <style media="screen">
@@ -26,3 +41,29 @@
     background: rgb(239, 242, 230);
   }
 </style>
+
+<!-- 
+<script charset="utf-8" src="/js/hammer.2.0.4.js"></script>
+<script charset="utf-8" src="/js/wptr.1.1.js"></script>
+
+<script>
+
+  var exampleLoadingFunction = function() {
+    return new Promise( function( resolve, reject ) {
+      // Run some async loading code here
+
+      if ( true ) {
+        window.location.reload();
+        resolve();
+      } else {
+        reject();
+      }
+    } );
+  };
+
+  window.onload = function() {
+    WebPullToRefresh.init( {
+      loadingFunction: exampleLoadingFunction
+    } );
+  };
+</script> -->
