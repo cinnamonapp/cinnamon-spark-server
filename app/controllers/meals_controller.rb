@@ -85,10 +85,9 @@ class MealsController < ApplicationController
 
         # Get meal_records for the current combo of week_day and time_frame with a query
         # Add meal_records to the current time_frame
-        time_frame.meal_records = meal_records.where("DATE(meal_records.created_at) BETWEEN DATE('#{date_time_frame.first}') AND  DATE('#{date_time_frame.last}')")
+        time_frame.meal_records = meal_records.where("meal_records.created_at BETWEEN '#{date_time_frame.first}' AND '#{date_time_frame.last}'")
 
-        raise
-
+        # raise if week_day.date.saturday?
       end
 
     end
