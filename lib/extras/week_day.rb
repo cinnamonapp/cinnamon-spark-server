@@ -24,7 +24,7 @@
         # [Yesterday, TheDayBefore, ...]
 
         today   = Date.today
-        daysago = today - 2.weeks
+        daysago = today - 3.weeks + 1.day
         range   = daysago..today
 
         return range.to_a.map{|date| WeekDay.new(date: date)}.reverse

@@ -28,7 +28,7 @@ gem "aws-ses", "~> 0.5.0", :require => 'aws/ses'
 gem 'turbolinks'
 
 # Let's go for bootstrap
-gem 'twitter-bootstrap-rails'
+gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git', :branch => 'bootstrap3'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'

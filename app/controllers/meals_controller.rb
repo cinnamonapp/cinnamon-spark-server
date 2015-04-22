@@ -63,6 +63,7 @@ class MealsController < ApplicationController
   end
 
   # Highly experimental code ==========
+  # Heavily based on code that resides in lib/extras/week_day.rb
 
   def week_view
 

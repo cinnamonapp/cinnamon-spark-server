@@ -100,8 +100,48 @@
 
 
 
+/* Week view */
+.oval{
+  display: block;
+  border-radius: 50%;
+  overflow: hidden;
+  float: left;
+
+  margin-right: 5px;
+  margin-bottom: 5px;
+
+  &.oval-color-1{
+    background: lightgreen;
+  }
+  &.oval-color-2{
+    background: lightyellow;
+  }
+  &.oval-color-3{
+    background: red;
+  }
+
+  &.oval-size-1{
+    height: 8px; width: 8px;
+  }
+  &.oval-size-2{
+    height: 16px; width: 16px;
+  }
+  &.oval-size-3{
+    height: 30px; width: 30px;
+  }
+}
 
 
+.no-padding{
+  padding: 0;
+}
+
+.day-row{
+  border-bottom: 1px solid #eee;
+  min-height: 50px;
+
+  padding: 10px;
+}
 
 
 
