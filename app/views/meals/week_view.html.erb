@@ -35,14 +35,19 @@
 
 
 <% @week_days.each do |week_day| %>
+
   <% if week_day.date == Date.today %>
-    <small>
+    <div class="section-title">
       This week
-    </small>
+    </div>
   <% elsif (Date.today - week_day.date).to_i % 7 == 0 %>
-      <small>
-        <%= week_day.date %> - <%= week_day.date - 7.days %>
-      </small>
+    <div class="section-title">
+      <%= week_day.date %> - <%= week_day.date - 7.days %>
+    </div>
+  <% end %>
+
+  <% if (Date.today - week_day.date).to_i % 7 == 0 %>
+    <div class="days">
   <% end %>
 
   <div class="row atleast-100 clearfix day-row">
@@ -55,48 +60,13 @@
        &nbsp;
       </div>
    <% end %>
+
+   <% if (Date.today - week_day.date).to_i % 7 == 6 %>
+     </div>
+   <% end %>
+
  </div>
 <% end %>
-<!--
-<table>
-  <thead>
-    <tr>
-      <td>
-
-      </td>
-      <% MealRecordsTimeFrame.generate_default_time_frames.each do |time_frame| %>
-        <td>
-          <span><%= time_frame.first %></span>
-          <span style="float:right;"><%= time_frame.last %></span>
-        </td>
-      <% end %>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @week_days.each do |week_day| %>
-      <tr>
-        <td>
-          <b><%= week_day.date.strftime("%A") %></b>
-        </td>
-        <% week_day.time_frames.each do |time_frame| %>
-          <td height="50">
-            <% time_frame.meal_records.sort{|a, b| b.size <=> a.size}.each do |meal_record| %>
-              <%#= image_tag meal_record.photo.url(:thumbnail), width: 20 %>
-              <div class="oval oval-color-<%= meal_record.carbs_estimate %> oval-size-<%= meal_record.size %>"></div>
-            <% end %>
-          </td>
-        <% end %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
- -->
-
-
-
-
-
 
 <style media="screen">
   tr:nth-child(even){
@@ -106,4 +76,10 @@
     background: whitesmoke;
   }
 
+  .section-title{
+    margin-left: -15px;
+    margin-right: -15px;
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+  }
 </style>
