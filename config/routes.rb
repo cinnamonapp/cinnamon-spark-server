@@ -5,7 +5,10 @@ CinnamonSparkServer::Application.routes.draw do
     # Has many meal records
     resources :meal_records
 
-    resources :meals
+    resources :meals do
+    end
+
+    get 'week_view' => 'meals#week_view'
 
   end
 

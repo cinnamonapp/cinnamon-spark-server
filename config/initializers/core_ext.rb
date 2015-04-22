@@ -1,3 +1,5 @@
+
+# Adding custom arithemical and logical operators to Range class
 class Range
 
 
@@ -48,7 +50,7 @@ class Range
 
       if self.last > range.last
         baseline = range.last
-        
+
         deltalast   = self.last - baseline
         deltafirst  = baseline  - self.first
         response = deltalast > deltafirst
@@ -100,5 +102,13 @@ class Range
       return value
     end
     return nil
+  end
+end
+
+
+# Create MealRecordsTimeFrames from string
+class String
+  def tf_to(string)
+    return MealRecordsTimeFrame.new(self, string)
   end
 end
