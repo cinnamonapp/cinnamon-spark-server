@@ -47,7 +47,7 @@
 
   <div class="row atleast-100 clearfix day-row">
    <% week_day.time_frames.each_with_index do |time_frame, index| %>
-      <div class="col-xs-2 no-padding">
+      <div class="col-xs-<%= if index == 0 || index == 2 then '3' else '2' end %> no-padding">
        <% time_frame.meal_records.sort{|a, b| b.size <=> a.size}.each do |meal_record| %>
          <%#= image_tag meal_record.photo.url(:thumbnail), width: 20 %>
          <div class="oval oval-color-<%= meal_record.carbs_estimate %> oval-size-<%= meal_record.size %>"></div>
