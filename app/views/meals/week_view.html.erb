@@ -47,7 +47,7 @@
   <% end %>
 
   <% if (Date.today - week_day.date).to_i % 7 == 0 %>
-    <div class="days">
+    <div class="days" onmousedown="window.location.hash = 'dayView'">
   <% end %>
 
   <div class="row atleast-100 clearfix day-row">
@@ -87,4 +87,6 @@
     padding: 5px;
     border-bottom: 1px solid #eee;
   }
+
+
 </style>
