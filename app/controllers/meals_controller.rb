@@ -59,7 +59,7 @@ class MealsController < ApplicationController
         @meals.push meal
       end
     end
-    
+
   end
 
   private
