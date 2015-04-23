@@ -1,5 +1,55 @@
 
-<% @meals.each do |meal| %>
+<%
+  # MOVE THIS INTO A HELPER
+
+  sentence = nil
+  now = Time.now
+  now = now + 2.hours if Rails.env.production?
+
+  if now.hour >= 11 && now.hour <= 15
+    # This should be breakfast or snack
+    first_meal = @meals.first # This is the last meal uploaded # Sorry stephanie
+
+    # If this was uploaded today
+    if first_meal.created_at.to_date == Date.today
+      # Check the carbs_estimate and voila
+      case first_meal.carbs_estimate.compare_to(30..50) # Is in range
+      when 1
+        sentence = "After this breakfast, take it easy for lunch, hm?"
+      when 0
+        sentence = "You started your day within the carb range.<br><br>Wonderful!"
+      when -1
+        sentence = "This is what I call a good start into the day. Keep it up, lovely."
+      end
+    end
+  end
+
+  if now.hour >= 15 && now.hour <= 22
+    # This should be breakfast or snack
+    first_meal = @meals.first # This is the last meal uploaded # Sorry stephanie
+
+    # If this was uploaded today
+    if first_meal.created_at.to_date == Date.today
+      # Check the carbs_estimate and voila
+      case first_meal.carbs_estimate.compare_to(30..50) # Is in range
+      when 1
+        sentence = "Your day has been pretty heavy so far, dude.<br><br>How about a salad tonight?"
+      when 0
+        sentence = "Your day looks good so far.<br><br>All within range. Well done!"
+      when -1
+        sentence = "Wow, you are below the range still.<br><br>Try to get some high quality carbs tonight and enjoy them!"
+      end
+    end
+
+  end
+
+  if now.hour >= 22
+    sentence = "Tomorrow is another beautiful day!"
+  end
+ %>
+
+
+<% @meals.each_with_index do |meal, index| %>
 
 
   <div class="section-title">
@@ -19,15 +69,36 @@
     <% end %>
   </div>
 
+  <% if index == 0 && sentence %>
+
+    <div class="section-title">
+      Mr. Cinnamon
+      <span style="float: right;">Smart alert</span>
+    </div>
+
+    <div class="meal-records clearfix" title="<%= meal.carbs_estimate %>" style="background: #FCFDF8;">
+      <p class="lead" style="font-size: 15px; padding: 0px 20px;">
+        <img src="/lightbulb.png" height="35" />&nbsp;&nbsp;<b>Smart alert</b>
+
+        <br><br>
+        <%= sentence.html_safe %>
+
+        <br><br>
+      </p>
+    </div>
+
+  <% end %>
+
 <% end %>
 
 <style media="screen">
   html,body{
-    background: white;
+    background: #EFF2E6;
   }
 
   .container{
     padding: 0;
+    background: white;
   }
 </style>
 

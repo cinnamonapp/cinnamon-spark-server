@@ -1,39 +1,3 @@
-<!-- <table>
-  <thead>
-    <tr>
-      <td>
-
-      </td>
-      <% MealRecordsTimeFrame.generate_default_time_frames.each do |time_frame| %>
-        <td>
-          <span><%= time_frame.first %></span>
-          <span style="float:right;"><%= time_frame.last %></span>
-        </td>
-      <% end %>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @week_days.each do |week_day| %>
-      <tr>
-        <td>
-          <b><%= week_day.date.strftime("%A") %></b>
-        </td>
-        <% week_day.time_frames.each do |time_frame| %>
-          <td height="50">
-            <% time_frame.meal_records.sort{|a, b| b.size <=> a.size}.each do |meal_record| %>
-              <%#= image_tag meal_record.photo.url(:thumbnail), width: 20 %>
-              <div class="oval oval-color-<%= meal_record.carbs_estimate %> oval-size-<%= meal_record.size %>"></div>
-            <% end %>
-          </td>
-        <% end %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
- -->
-
-
 <% @week_days.each do |week_day| %>
 
   <% if week_day.date == Date.today %>

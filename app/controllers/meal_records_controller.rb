@@ -19,6 +19,11 @@ class MealRecordsController < ApplicationController
     @meal_records = @meal_records.limit(params[:limit]) if params[:limit]
 
     @meal_records = @meal_records.order(:created_at => :desc)
+
+    respond_to do |format|
+      format.json{fake_mr_cinnamon()}
+      format.html{}
+    end
   end
 
   # GET /meal_records/estimate
@@ -127,5 +132,36 @@ class MealRecordsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def meal_record_params
       params.require(:meal_record).permit(:title, :size, :carbs_estimate, :photo)
+    end
+
+
+    class MR
+      attr_accessor *(MealRecord.attribute_names.map{|a| a.to_sym})
+      attr_accessor :photo
+      attr_accessor :user
+
+      class PH
+        def url(type=nil)
+          files_count = Dir[File.join('public/resources/quirky-messages', '**', '*')].count { |file| File.file?(file) }
+          index_for_today = Date.today.day % files_count
+
+          return "/resources/quirky-messages/quirk-#{index_for_today.to_s.rjust(2, '0')}.png"
+        end
+      end
+    end
+
+    def fake_mr_cinnamon
+      mr = MR.new
+      mr.id = -1
+      mr.title = ""
+      mr.size = 1
+      # mr.created_at = DateTime.now
+      # mr.updated_at = DateTime.now
+
+      mr.photo = MR::PH.new
+
+      mr.user = User.find_or_create_by_username("mr.cinnamon")
+
+      @meal_records = @meal_records.to_a.insert(2, mr)
     end
 end
