@@ -64,8 +64,14 @@ CinnamonSparkServer::Application.configure do
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
-  ActionMailer::Base.delivery_method = :ses_system_message
-  config.action_mailer.default_url_options = { host: "https://cinnamon-production.herokuapp.com" }
+  if ENV['HEROKU_ENVIRONMENT'] == 'production'
+    ActionMailer::Base.delivery_method = :ses_system_message
+  else
+    # DO NOT SEND EMAILS ON STAGING
+  end
+
+
+  config.action_mailer.default_url_options = { host: "https://cinnamon-#{ENV['HEROKU_ENVIRONMENT'] || 'production'}.herokuapp.com" }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found).
