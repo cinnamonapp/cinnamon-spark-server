@@ -160,7 +160,7 @@ class MealRecordsController < ApplicationController
 
       mr.photo = MR::PH.new
 
-      mr.user = User.find_or_create_by_username("mr.cinnamon")
+      mr.user = User.find_or_create_by_username("Mr. Cinnamon")
 
       @meal_records = @meal_records.to_a.insert(2, mr)
     end
