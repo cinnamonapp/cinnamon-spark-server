@@ -6,7 +6,7 @@
     </div>
   <% elsif (Date.today - week_day.date).to_i % 7 == 0 %>
     <div class="section-title">
-      <%= week_day.date %> - <%= week_day.date - 7.days %>
+      <%= week_day.date.strftime("%A, %d %h %Y") %> - <%= (week_day.date - 7.days).strftime("%A, %d %h %Y") %>
     </div>
   <% end %>
 
@@ -19,7 +19,7 @@
 
       <% width = 1
         width = 3 if index == 0 || index == 2 # Breakfast and lunch
-        width = 4 if index == 4 # Breakfast and lunch %>
+        width = 4 if index == 4 # Dinner %>
 
       <div class="col-xs-<%= width %> no-padding">
        <% time_frame.meal_records.sort{|a, b| b.size <=> a.size}.each do |meal_record| %>
