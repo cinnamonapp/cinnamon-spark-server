@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
     if self.push_notification_token.present? && message.present?
       notification = Houston::Notification.new(device: self.push_notification_token)
       notification.alert = message
-      
+
       notification.sound = "sosumi.aiff"
       notification.content_available = true if options[:content_available]
       notification.custom_data = options[:custom_data] if options[:custom_data]
@@ -24,4 +24,8 @@ class User < ActiveRecord::Base
     end
   end
 
+
+  def meal_records_count
+    self.meal_records.count
+  end
 end
