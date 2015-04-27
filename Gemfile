@@ -45,6 +45,9 @@ gem 'pg'
 # Push notifications only for iOS
 gem 'houston'
 
+# Active record pagination
+gem 'kaminari'
+
 group :production do
   # Assets on heroku
   gem 'rails_12factor'

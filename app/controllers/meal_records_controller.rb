@@ -16,12 +16,20 @@ class MealRecordsController < ApplicationController
       @meal_records = MealRecord.all
     end
 
-    @meal_records = @meal_records.limit(params[:limit]) if params[:limit]
+    # Handle paginations
+    if query_params[:page]
+      @meal_records = @meal_records.page(query_params[:page])
+      @meal_records = @meal_records.per(query_params[:per_page]) if query_params[:per_page]
+    elsif query_params[:per_page]
+      @meal_records = @meal_records.page(1).per(query_params[:per_page])
+    end
 
     @meal_records = @meal_records.order(:created_at => :desc)
 
     respond_to do |format|
-      format.json{fake_mr_cinnamon()}
+      format.json{
+        fake_mr_cinnamon() if query_params[:page] && query_params[:page] == 1
+      }
       format.html{}
     end
   end
@@ -132,6 +140,10 @@ class MealRecordsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def meal_record_params
       params.require(:meal_record).permit(:title, :size, :carbs_estimate, :photo)
+    end
+
+    def query_params
+      params.permit(:page, :per_page)
     end
 
 

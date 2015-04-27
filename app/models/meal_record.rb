@@ -3,6 +3,8 @@ class MealRecord < ActiveRecord::Base
   SIZES = ["1/2 cup", "1 cup", "2 cup"]
   CARBS_ESTIMATE = ["Low", "Medium", "High"]
 
+  paginates_per 10
+
   has_attached_file :photo, styles: {
     thumbnail: "100x100>",
     medium: "300x300>",
