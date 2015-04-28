@@ -152,6 +152,12 @@ class MealRecordsController < ApplicationController
       attr_accessor :photo
       attr_accessor :user
 
+      def title
+        index_for_today = Date.today.day % MrCinnamon::SENTENCES.count
+
+        return MrCinnamon::SENTENCES[index_for_today]
+      end
+
       class PH
         def url(type=nil)
           files_count = Dir[File.join('public/resources/quirky-messages', '**', '*')].count { |file| File.file?(file) }
