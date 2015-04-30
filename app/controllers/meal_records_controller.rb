@@ -80,30 +80,36 @@ class MealRecordsController < ApplicationController
   # PATCH/PUT /meal_records/1
   # PATCH/PUT /meal_records/1.json
   def update
+    old_carbs_estimate = @meal_record.carbs_estimate
+
     respond_to do |format|
       if @meal_record.update(meal_record_params)
-        array = [
-          "Hello beauty, we have your carbs!",
-          "Carbs are there. Check now!",
-          "FYI, carbs are there now!",
-          "#{MealRecord::CARBS_ESTIMATE[@meal_record.carbs_estimate - 1]} in carbs. Make that count!",
-          "Enjoying your day? Carbs are there now",
-          "You and your carbs are amazing. Have a look",
-          "#{MealRecord::CARBS_ESTIMATE[@meal_record.carbs_estimate - 1]} in carbs. That was soooo good!",
-          "I wish I had that dish too. Check your carbs now",
-          "I am speechless. See how you great did"
-        ]
 
-        if @meal_record.carbs_estimate == 1
-          array.push "Low in carbs. AMAZING!"
-          array.push "Low in carbs. Couldn't do better!"
-          array.push "That low in carbs really made my day! Check that out"
+        if @meal_record.carbs_estimate && old_carbs_estimate != @meal_record.carbs_estimate
+          array = [
+            "Hello beauty, we have your carbs!",
+            "Carbs are there. Check now!",
+            "FYI, carbs are there now!",
+            "#{MealRecord::CARBS_ESTIMATE[@meal_record.carbs_estimate - 1]} in carbs. Make that count!",
+            "Enjoying your day? Carbs are there now",
+            "You and your carbs are amazing. Have a look",
+            "#{MealRecord::CARBS_ESTIMATE[@meal_record.carbs_estimate - 1]} in carbs. That was soooo good!",
+            "I wish I had that dish too. Check your carbs now",
+            "I am speechless. See how you great did"
+          ]
+
+          if @meal_record.carbs_estimate == 1
+            array.push "Low in carbs. AMAZING!"
+            array.push "Low in carbs. Couldn't do better!"
+            array.push "That low in carbs really made my day! Check that out"
+          end
+
+          @meal_record.user.send_push_notification(array.sample,
+            content_available: true,
+            custom_data: {meal_record_id: @meal_record.id}
+          )
         end
 
-        @meal_record.user.send_push_notification(array.sample,
-          content_available: true,
-          custom_data: {meal_record_id: @meal_record.id}
-        )
 
         format.html {
           redirect_to @meal_record, notice: 'Meal record was successfully updated.' unless params[:easy_mode]
@@ -139,7 +145,14 @@ class MealRecordsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def meal_record_params
-      params.require(:meal_record).permit(:title, :size, :carbs_estimate, :photo)
+      params.require(:meal_record).permit(
+        :title,
+        :size,
+        :carbs_estimate,
+        :photo,
+        :fat_secret_ingredients => [:food_id, :percentage_in_meal_record],
+        :ingredients => []
+      )
     end
 
     def query_params

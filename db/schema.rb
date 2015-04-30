@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150417095746) do
+ActiveRecord::Schema.define(version: 20150429132313) do
 
   create_table "in_app_purchase_products", force: true do |t|
     t.string  "product_identifier",                null: false
@@ -28,6 +28,22 @@ ActiveRecord::Schema.define(version: 20150417095746) do
 
   create_table "in_app_purchase_schema_info", id: false, force: true do |t|
     t.integer "version", default: 0, null: false
+  end
+
+  create_table "ingredients", force: true do |t|
+    t.string   "name"
+    t.integer  "carbs_per_cup"
+    t.integer  "fat_secret_food_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "meal_record_ingredients", force: true do |t|
+    t.integer  "meal_record_id"
+    t.integer  "ingredient_id"
+    t.integer  "percentage_in_meal_record"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "meal_records", force: true do |t|

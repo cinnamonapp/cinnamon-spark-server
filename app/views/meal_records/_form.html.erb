@@ -1,4 +1,5 @@
-<%= form_for(@meal_record) do |f| %>
+<%= simple_form_for(@meal_record) do |f| %>
+
   <% if @meal_record.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@meal_record.errors.count, "error") %> prohibited this meal_record from being saved:</h2>
@@ -16,7 +17,7 @@
       <%= image_tag @meal_record.photo.url(:medium) %>
     <% end %>
     <% unless params[:easy_mode] %>
-      <%= f.file_field :photo %>
+      <%= f.input :photo %>
     <% end %>
   </div>
 
@@ -31,28 +32,14 @@
 
   <% else %>
 
-    <div class="field">
-      <%= f.label :title %><br>
-      <%= f.text_field :title %>
-    </div>
+    <%= f.input :title %>
 
   <% end %>
 
-  <div class="field">
-      <%= f.label :size %>
-      <label style="padding: 10px; 5px"><%= f.radio_button :size, 1 %> <%= MealRecord::SIZES[0] %></label>
-      <label style="padding: 10px; 5px"><%= f.radio_button :size, 2 %> <%= MealRecord::SIZES[1] %></label>
-      <label style="padding: 10px; 5px"><%= f.radio_button :size, 3 %> <%= MealRecord::SIZES[2] %></label>
-  </div>
+  <%= f.input :size, collection: MealRecord::SIZES.each_with_index.map{|size, index| [size, index + 1]} %>
 
-  <div class="field">
-    <%= f.label :carbs_estimate %>
-    <label style="padding: 10px; 5px"><%= f.radio_button :carbs_estimate, 1 %> <%= MealRecord::CARBS_ESTIMATE[0] %></label>
-    <label style="padding: 10px; 5px"><%= f.radio_button :carbs_estimate, 2 %> <%= MealRecord::CARBS_ESTIMATE[1] %></label>
-    <label style="padding: 10px; 5px"><%= f.radio_button :carbs_estimate, 3 %> <%= MealRecord::CARBS_ESTIMATE[2] %></label>
+  <%= f.input :carbs_estimate, collection: MealRecord::CARBS_ESTIMATE.each_with_index.map{|size, index| [size, index + 1]} %>
 
-    <small>How many grams of carbs are there in a cup of this?</small>
-  </div>
 
   <div class="field">
       <%= f.label :user %>
@@ -60,8 +47,22 @@
       <%= "No user" unless @meal_record.user %>
   </div>
 
+  <div class="form-group select optional meal_record_fat_secret_ingredients">
+    <% if @meal_record.photo.present? %>
+      <%= image_tag @meal_record.photo.url(:original), class: "hidden img-responsive" %>
+    <% end %>
+
+    <label class="select optional control-label">Ingredients</label>
+    <div class="food-picker" id="foodPicker">
+      <input type="text" placeholder="Type to search on FatSecret..." class="input-autocomplete">
+      <br>
+      <ul class="food-picker-foods">
+      </ul>
+    </div>
+  </div>
+
   <div class="actions">
-    <%= f.button :class => "btn btn-large btn-primary" %>
+    <%= f.button :submit, :class => "btn btn-large btn-primary" %>
   </div>
 <% end %>
 
@@ -69,4 +70,67 @@
   body{
     padding: 10px;
   }
+
 </style>
+
+
+<script type="text/javascript">
+  var pickedFood = [];
+
+  var reloadList = function reloadListFn() {
+    elm = $("#foodPicker");
+    list = elm.find(".food-picker-foods");
+    list.find("li").remove();
+
+    var estimatedPercentage = 100 / pickedFood.length << 0;
+
+    $.each(pickedFood, function (index) {
+      var suggested_food = this;
+
+      list.append(
+          "<li>"
+        + suggested_food.value
+        + "<input type='hidden' name='meal_record[fat_secret_ingredients][][food_id]' value='" + suggested_food.data.foodId + "'>"
+        + "<input type='number' name='meal_record[fat_secret_ingredients][][percentage_in_meal_record]' value='" + estimatedPercentage + "' min=0 max=100>"
+        + "<span href='#' class='btn btn-default pull-right' onclick='pickedFood.splice(" + index + ", 1); reloadList();'>&times;</span>"
+        + "</li>"
+      )
+    })
+  }
+
+  $("#foodPicker input").focus(function (event) {
+    $(".meal_record_fat_secret_ingredients").addClass("focus");
+    $("body").addClass("freeze");
+  })
+
+  $("#foodPicker input").blur(function (event) {
+    $(".meal_record_fat_secret_ingredients").removeClass("focus");
+    $("body").removeClass("freeze");
+  })
+
+  $(".input-autocomplete").autocomplete({
+    serviceUrl: "/api/v1/fat_secret/foods",
+    deferRequestBy: 300,
+    transformResult: function foodPickerTransformResultFn(response) {
+      response = JSON.parse(response);
+      return {
+          suggestions: $.map(response.foods.food, function(food) {
+              return {
+                value: food.food_name,
+                data: {foodId: food.food_id}
+              };
+          })
+      };
+    },
+    onSelect: function foodPickerOnSelectFn(suggestion) {
+      var found = $.inArray(suggestion, pickedFood, 0) > -1;
+      if(!found){
+        pickedFood.push(suggestion);
+        reloadList();
+      }
+
+      $(this).val("");
+      $(this).focus();
+    }
+  })
+</script>

@@ -1,5 +1,7 @@
 CinnamonSparkServer::Application.routes.draw do
 
+  resources :ingredients
+
   # Users
   resources :users do
     # Has many meal records
@@ -10,6 +12,19 @@ CinnamonSparkServer::Application.routes.draw do
 
     get 'week_view' => 'meals#week_view'
 
+  end
+
+
+  namespace :api, :defaults => { :format => :json } do
+    namespace :v1 do
+
+      namespace :fat_secret do
+        resources :foods do
+          get 'carbs_per_cup' => 'foods#carbs_per_cup'
+        end
+      end
+
+    end
   end
 
   get 'meal_records/estimate' => 'meal_records#estimate', as: 'meal_records_estimate'

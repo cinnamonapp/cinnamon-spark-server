@@ -48,6 +48,13 @@ gem 'houston'
 # Active record pagination
 gem 'kaminari'
 
+# The fatsecret api in a rails gem
+gem 'fatsecret-api', git: "https://github.com/cinnamonapp/Fatsecret.git"
+
+
+# Building forms like a pro
+gem 'simple_form'
+
 group :production do
   # Assets on heroku
   gem 'rails_12factor'

@@ -1,3 +1,6 @@
+
+<h1>Dish detail view</h1>
+
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -7,12 +10,17 @@
 
 <p>
   <strong>Size:</strong><br>
-  <%= @meal_record.size %>
+  <%= MealRecord::SIZES[@meal_record.size - 1] %>
+</p>
+
+<p>
+  <strong>User:</strong><br>
+  <%= link_to(@meal_record.user.username, user_url(@meal_record.user)) if @meal_record.user %>
 </p>
 
 <p>
   <strong>Carbs estimate:</strong><br>
-  <%= @meal_record.carbs_estimate %>
+  <%= @meal_record.carbs_estimate_v2 %> g
 </p>
 
 <p>

@@ -9,6 +9,12 @@ GIT
       rails (>= 3.1)
       railties (>= 3.1)
 
+GIT
+  remote: https://github.com/cinnamonapp/Fatsecret.git
+  revision: 34a9d0d9f38d7003f513ee4a50546f112ccc75a0
+  specs:
+    fatsecret-api (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -142,6 +148,9 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    simple_form (3.0.1)
+      actionpack (>= 4.0.0, < 4.1)
+      activemodel (>= 4.0.0, < 4.1)
     sprockets (2.12.3)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -178,6 +187,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   coffee-rails (~> 4.0.0)
+  fatsecret-api!
   houston
   jbuilder (~> 1.2)
   jquery-rails
@@ -190,6 +200,7 @@ DEPENDENCIES
   rails_12factor
   sass-rails (~> 4.0.0)
   sdoc
+  simple_form
   therubyracer
   turbolinks
   twitter-bootstrap-rails!
