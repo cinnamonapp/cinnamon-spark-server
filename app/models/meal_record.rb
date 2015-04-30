@@ -61,6 +61,8 @@ class MealRecord < ActiveRecord::Base
     estimate_from_grams = 2 if grams >= 30 && grams <=50
     estimate_from_grams = 3 if grams > 50
 
+    estimate_from_grams = nil if grams == 0
+
     self["carbs_estimate"] || estimate_from_grams
   end
 
