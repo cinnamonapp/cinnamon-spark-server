@@ -171,6 +171,10 @@ class MealRecordsController < ApplicationController
         return MrCinnamon::SENTENCES[index_for_today]
       end
 
+      def carbs_estimate_grams
+        return nil
+      end
+
       class PH
         def url(type=nil)
           files_count = Dir[File.join('public/resources/quirky-messages', '**', '*')].count { |file| File.file?(file) }
