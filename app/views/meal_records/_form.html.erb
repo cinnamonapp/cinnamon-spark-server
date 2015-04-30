@@ -12,54 +12,57 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <% if @meal_record.photo.present? %>
-      <%= image_tag @meal_record.photo.url(:medium) %>
-    <% end %>
-    <% unless params[:easy_mode] %>
-      <%= f.input :photo %>
-    <% end %>
-  </div>
-
   <% if params[:easy_mode] %>
-
     <input type="hidden" name="easy_mode" value="1">
-
-    <div class="field">
-        <%= f.label :hashtags %>
-        <%= @meal_record.title || "No hastags added" %>
-    </div>
-
-  <% else %>
-
-    <%= f.input :title %>
-
   <% end %>
 
-  <%= f.input :size, collection: MealRecord::SIZES.each_with_index.map{|size, index| [size, index + 1]} %>
-
-  <%= f.input :carbs_estimate, collection: MealRecord::CARBS_ESTIMATE.each_with_index.map{|size, index| [size, index + 1]} %>
-
-
-  <div class="field">
-      <%= f.label :user %>
-      <%= link_to @meal_record.user.username, user_url(@meal_record.user) if @meal_record.user %>
-      <%= "No user" unless @meal_record.user %>
-  </div>
-
-  <div class="form-group select optional meal_record_fat_secret_ingredients">
-    <% if @meal_record.photo.present? %>
-      <%= image_tag @meal_record.photo.url(:original), class: "hidden img-responsive" %>
-    <% end %>
-
-    <label class="select optional control-label">Ingredients</label>
-    <div class="food-picker" id="foodPicker">
-      <input type="text" placeholder="Type to search on FatSecret..." class="input-autocomplete">
+  <!-- The container for this form -->
+  <div class="row">
+    <div class="col-sm-5">
+      <% if @meal_record.photo.present? %>
+        <%= image_tag @meal_record.photo.url(:original), class: "img-responsive" %>
+      <% end %>
       <br>
-      <ul class="food-picker-foods">
-      </ul>
+      <% unless params[:easy_mode] %>
+        <%= f.input :photo %>
+      <% end %>
+    </div>
+
+
+    <div class="col-sm-7">
+      <div class="spoiler">
+        <div class="spoiler-message">
+          Compressed. <a href="javascript:$('.spoiler').removeClass('hide-content');">Press to expand.</a>
+        </div>
+        <%= f.input :title %>
+
+
+        <%= f.input :carbs_estimate, collection: MealRecord::CARBS_ESTIMATE.each_with_index.map{|size, index| [size, index + 1]} %>
+
+        <div class="form-group">
+            <%= f.label :user %>
+            <%= link_to @meal_record.user.username, user_url(@meal_record.user) if @meal_record.user %>
+            <%= "No user" unless @meal_record.user %>
+        </div>
+      </div>
+
+      <%= f.input :size, collection: MealRecord::SIZES.each_with_index.map{|size, index| [size, index + 1]} %>
+      
+      <div class="form-group select optional meal_record_fat_secret_ingredients">
+        <label class="select optional control-label">Ingredients</label>
+        <div class="food-picker" id="foodPicker">
+          <input type="text" placeholder="Type to search on FatSecret..." class="input-autocomplete">
+          <br>
+          <ul class="food-picker-foods">
+          </ul>
+        </div>
+      </div>
+
+
     </div>
   </div>
+
+  <hr>
 
   <div class="actions">
     <%= f.button :submit, :class => "btn btn-large btn-primary" %>
@@ -84,7 +87,8 @@
       "value" => ingredient.name,
       "data" => {
         "foodId" => ingredient.fat_secret_food_id,
-        "percentageInMealRecord" => i.percentage_in_meal_record
+        "percentageInMealRecord" => i.percentage_in_meal_record,
+        "carbsPerCup" => ingredient.carbs_per_cup
       }
     }
   end).to_json.html_safe %>;
@@ -102,25 +106,40 @@
       if(!suggested_food.data.percentageInMealRecord)
         suggested_food.data.percentageInMealRecord = estimatedPercentage;
 
+      if(suggested_food.data.carbsPerCup === undefined){
+        suggested_food.data.carbsPerCup = "Fetching"
+      }
+
       list.append(
           "<li>"
-        + suggested_food.value
-        + "<input type='hidden' name='meal_record[fat_secret_ingredients][][food_id]' value='" + suggested_food.data.foodId + "'>"
-        + "<input type='number' name='meal_record[fat_secret_ingredients][][percentage_in_meal_record]' value='" + suggested_food.data.percentageInMealRecord + "' min=0 max=100>"
-        + "<span href='#' class='btn btn-default pull-right' onclick='pickedFood.splice(" + index + ", 1); reloadList();'>&times;</span>"
+        + "<div class='row'>"
+          + "<div class='col-xs-8'>"
+            + "<h5 class='list-group-item-heading'>" + suggested_food.value + "</h5>"
+            + "<p class='list-group-item-text'>"
+              + "<span class='label label-" + ((suggested_food.data.carbsPerCup === null) ? "danger" : "default") + "'>"
+                + ((suggested_food.data.carbsPerCup === null) ? "No carbs per cup" : (suggested_food.data.carbsPerCup + " carbs per cup (g)"))
+              + "</span>"
+            + "</p>"
+          + "</div>"
+          + "<div class='col-xs-2' style='padding:0; text-align: right;'>"
+            + "<input type='hidden' name='meal_record[fat_secret_ingredients][][food_id]' value='" + suggested_food.data.foodId + "'>"
+            + "<input type='number' name='meal_record[fat_secret_ingredients][][percentage_in_meal_record]' value='" + suggested_food.data.percentageInMealRecord + "' class='form-control input-sm' min=0 max=100>"
+          + "</div>"
+          + "<div class='col-xs-2' style='padding-left:0; text-align: right;'>"
+            + "<span href='#' class='btn btn-default btn-sm' onclick='pickedFood.splice(" + index + ", 1); reloadList();'>&times;</span>"
+          + "</div>"
+        + "</div>"
         + "</li>"
       )
     })
   }
 
   $("#foodPicker input").focus(function (event) {
-    $(".meal_record_fat_secret_ingredients").addClass("focus");
-    $("body").addClass("freeze");
+    $(".spoiler").addClass("hide-content");
   })
 
   $("#foodPicker input").blur(function (event) {
-    $(".meal_record_fat_secret_ingredients").removeClass("focus");
-    $("body").removeClass("freeze");
+    // $(".spoiler").removeClass("hidden");
   })
 
   $(".input-autocomplete").autocomplete({
@@ -140,7 +159,15 @@
     onSelect: function foodPickerOnSelectFn(suggestion) {
       var found = $.inArray(suggestion, pickedFood, 0) > -1;
       if(!found){
+
         pickedFood.push(suggestion);
+
+        // Query to know if there are carbs per cup
+        $.get("/api/v1/fat_secret/foods/" + suggestion.data.foodId + "/carbs_per_cup").success(function (response) {
+          suggestion.data.carbsPerCup = response.food.carbohydrate;
+          reloadList();
+        })
+
         reloadList();
       }
 

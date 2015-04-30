@@ -44,3 +44,27 @@
     }
   }
 }
+
+
+
+
+.spoiler{
+  margin-bottom: 10px;
+
+  .spoiler-message{
+    display: none;
+    padding: 10px;
+    text-align: center;
+
+    background: whitesmoke;
+  }
+
+  &.hide-content{
+    .spoiler-message{
+      display: block;
+    }
+    .form-group{
+      display: none;
+    }
+  }
+}
