@@ -20,7 +20,7 @@
 
 <p>
   <strong>Carbs estimate:</strong><br>
-  <%= @meal_record.carbs_estimate_grams %> g
+  <%= @meal_record.carbs_estimate_grams %> g (<%= MealRecord::CARBS_ESTIMATE[@meal_record.carbs_estimate - 1] if @meal_record.carbs_estimate.present? %>)
 </p>
 
 <p>

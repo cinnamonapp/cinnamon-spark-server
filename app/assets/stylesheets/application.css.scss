@@ -26,3 +26,19 @@ body{
     overflow: hidden;
   }
 }
+
+
+.btn{
+  &.btn-show{
+    @extend .btn-sm;
+    @extend .btn-default;
+  }
+  &.btn-edit{
+    @extend .btn-sm;
+    @extend .btn-default;
+  }
+  &.btn-destroy{
+    @extend .btn-sm;
+    @extend .btn-danger;
+  }
+}

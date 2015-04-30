@@ -1,12 +1,13 @@
-<h1>Listing meal_records</h1>
+<h1>Listing Dishes</h1>
 
-<table>
+<table class="table table-striped table-bordered">
   <thead>
     <tr>
       <th>Title</th>
       <th>Size</th>
       <th>Carbs estimate</th>
       <th>Photo</th>
+      <th>User</th>
       <th></th>
       <th></th>
       <th></th>
@@ -20,9 +21,10 @@
         <td><%= meal_record.size %></td>
         <td><%= meal_record.carbs_estimate %></td>
         <td><%= image_tag meal_record.photo.url(:thumbnail) %></td>
-        <td><%= link_to 'Show', meal_record %></td>
-        <td><%= link_to 'Edit', edit_meal_record_path(meal_record) %></td>
-        <td><%= link_to 'Destroy', meal_record, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= meal_record.user.username if meal_record.user %></td>
+        <td><%= link_to 'Show', meal_record, class: "btn btn-show" %></td>
+        <td><%= link_to 'Edit', edit_meal_record_path(meal_record), class: "btn btn-edit" %></td>
+        <td><%= link_to 'Destroy', meal_record, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-destroy" %></td>
       </tr>
     <% end %>
   </tbody>
@@ -30,4 +32,4 @@
 
 <br>
 
-<%= link_to 'New Meal record', new_meal_record_path %>
+<%= link_to 'New Meal record', new_meal_record_path, class: "btn btn-default" %>

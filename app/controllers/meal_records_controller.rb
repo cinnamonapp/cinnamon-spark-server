@@ -65,6 +65,7 @@ class MealRecordsController < ApplicationController
 
     respond_to do |format|
       if @meal_record.save
+        # This send an email to the admin team
         fork do
           Notifier.send_new_meal_record_uploaded_notification(@user, @meal_record).deliver
         end
@@ -81,11 +82,12 @@ class MealRecordsController < ApplicationController
   # PATCH/PUT /meal_records/1.json
   def update
     old_carbs_estimate = @meal_record.carbs_estimate
+    old_carbs_estimate_grams = @meal_record.carbs_estimate_grams
 
     respond_to do |format|
       if @meal_record.update(meal_record_params)
 
-        if @meal_record.carbs_estimate && old_carbs_estimate != @meal_record.carbs_estimate
+        if params[:notify_user].present?
           array = [
             "Hello beauty, we have your carbs!",
             "Carbs are there. Check now!",
@@ -94,14 +96,14 @@ class MealRecordsController < ApplicationController
             "Enjoying your day? Carbs are there now",
             "You and your carbs are amazing. Have a look",
             "#{MealRecord::CARBS_ESTIMATE[@meal_record.carbs_estimate - 1]} in carbs. That was soooo good!",
-            "I wish I had that dish too. Check your carbs now",
-            "I am speechless. See how you great did"
+            "I wish I had that dish too. Check your carbs now"
           ]
 
           if @meal_record.carbs_estimate == 1
             array.push "Low in carbs. AMAZING!"
             array.push "Low in carbs. Couldn't do better!"
             array.push "That low in carbs really made my day! Check that out"
+            array.push "I am speechless. See how great you did"
           end
 
           @meal_record.user.send_push_notification(array.sample,

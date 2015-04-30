@@ -15,6 +15,16 @@ class Meal
 
     return total_carbs
   end
+
+  def carbs_estimate_grams
+    total_carbs = 0
+
+    self.meal_records.each do |meal_record|
+      total_carbs += meal_record.carbs_estimate_grams
+    end
+
+    return total_carbs
+  end
 end
 
 class MealsController < ApplicationController
@@ -33,7 +43,7 @@ class MealsController < ApplicationController
       if index > 0
         previous_meal_record = meal_records[index - 1]
 
-        # if the creation date is within an hour after the creation date of the previous meal
+        # if the creation date is within 45 minutes after the creation date of the previous meal
         if (meal_record.created_at - previous_meal_record.created_at).abs <= 45.minutes
           # add it to the same group of the previous meal
           meal = @meals.last
