@@ -16,7 +16,8 @@ class MealRecord < ActiveRecord::Base
   has_many :meal_record_ingredients
   has_many :ingredients, through: :meal_record_ingredients
 
-  def carbs_estimate_v2
+  # Returns the grams of carbs in the meal_record based on its ingredients
+  def carbs_estimate_grams
     size_coeff = 1
 
     if self.size == 1
@@ -36,10 +37,11 @@ class MealRecord < ActiveRecord::Base
 
       carbs_sum += carbs_per_cup * percentage
     end
-    return (carbs_sum * size_coeff).to_i
 
+    return (carbs_sum * size_coeff).to_i
   end
 
+  # Set ingredients from fat_secret data
   def fat_secret_ingredients=(fs_ingredients)
     # Clear meal_record_ingredients
     self.meal_record_ingredients.delete_all
@@ -49,6 +51,17 @@ class MealRecord < ActiveRecord::Base
       meal_record_ingredient = self.meal_record_ingredients.new(percentage_in_meal_record: fs_ingredient["percentage_in_meal_record"])
       meal_record_ingredient.ingredient = ingredient
     end
+  end
+
+  def carbs_estimate
+
+    estimate_from_grams = nil
+    grams = carbs_estimate_grams
+    estimate_from_grams = 1 if grams < 30
+    estimate_from_grams = 2 if grams >= 30 && grams <=50
+    estimate_from_grams = 3 if grams > 50
+
+    self["carbs_estimate"] || estimate_from_grams
   end
 
   def carbs_estimate_to_range

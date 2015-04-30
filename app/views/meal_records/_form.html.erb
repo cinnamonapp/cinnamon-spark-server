@@ -36,8 +36,7 @@
         </div>
         <%= f.input :title %>
 
-
-        <%= f.input :carbs_estimate, collection: MealRecord::CARBS_ESTIMATE.each_with_index.map{|size, index| [size, index + 1]} %>
+        <%#= f.input :carbs_estimate, collection: MealRecord::CARBS_ESTIMATE.each_with_index.map{|size, index| [size, index + 1]} %>
 
         <div class="form-group">
             <%= f.label :user %>
@@ -47,7 +46,7 @@
       </div>
 
       <%= f.input :size, collection: MealRecord::SIZES.each_with_index.map{|size, index| [size, index + 1]} %>
-      
+
       <div class="form-group select optional meal_record_fat_secret_ingredients">
         <label class="select optional control-label">Ingredients</label>
         <div class="food-picker" id="foodPicker">
@@ -145,6 +144,7 @@
   $(".input-autocomplete").autocomplete({
     serviceUrl: "/api/v1/fat_secret/foods",
     deferRequestBy: 300,
+    triggerSelectOnValidInput: false,
     transformResult: function foodPickerTransformResultFn(response) {
       response = JSON.parse(response);
       return {
