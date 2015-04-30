@@ -77,6 +77,18 @@
 <script type="text/javascript">
   var pickedFood = [];
 
+  pickedFood = <%= (@meal_record.meal_record_ingredients.map do |i|
+    ingredient = i.ingredient
+
+    {
+      "value" => ingredient.name,
+      "data" => {
+        "foodId" => ingredient.fat_secret_food_id,
+        "percentageInMealRecord" => i.percentage_in_meal_record
+      }
+    }
+  end).to_json.html_safe %>;
+
   var reloadList = function reloadListFn() {
     elm = $("#foodPicker");
     list = elm.find(".food-picker-foods");
@@ -87,11 +99,14 @@
     $.each(pickedFood, function (index) {
       var suggested_food = this;
 
+      if(!suggested_food.data.percentageInMealRecord)
+        suggested_food.data.percentageInMealRecord = estimatedPercentage;
+
       list.append(
           "<li>"
         + suggested_food.value
         + "<input type='hidden' name='meal_record[fat_secret_ingredients][][food_id]' value='" + suggested_food.data.foodId + "'>"
-        + "<input type='number' name='meal_record[fat_secret_ingredients][][percentage_in_meal_record]' value='" + estimatedPercentage + "' min=0 max=100>"
+        + "<input type='number' name='meal_record[fat_secret_ingredients][][percentage_in_meal_record]' value='" + suggested_food.data.percentageInMealRecord + "' min=0 max=100>"
         + "<span href='#' class='btn btn-default pull-right' onclick='pickedFood.splice(" + index + ", 1); reloadList();'>&times;</span>"
         + "</li>"
       )
@@ -133,4 +148,6 @@
       $(this).focus();
     }
   })
+
+  reloadList()
 </script>
