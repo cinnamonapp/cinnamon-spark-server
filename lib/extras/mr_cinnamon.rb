@@ -1,21 +1,21 @@
 module MrCinnamon
   SENTENCES = [
-    "Maybe not today, but hey tomorrow\nis another day:\n\nStart by eating more vegetables.\n\nDon't worry, nobody wants to turn you \ninto a vegetarian around here.",
+    "Maybe not today, but hey tomorrow is another day:\n\nStart by eating more vegetables.\n\nDon't worry, nobody wants to turn you into a vegetarian around here.",
 
 
     "Keep it simple, beauty. 5 ingredients per dish should be enough.\n\nLess is more. Still true.",
 
 
-    "Try to keep carbohydrates in range of \n30g per meal. \n\nCarbo-what? Carbohydrates, right. \nNo idea about values? \nWell, that's what we are here for. \n\nTake pictures of your food and watch out for our evaluation.",
+    "Try to keep carbohydrates in range of 30g per meal. \n\nCarbo-what? Carbohydrates, right. \nNo idea about values? \nWell, that's what we are here for. \n\nTake pictures of your food and watch out for our evaluation.",
 
 
     "Easy is boring, here is a task:\n\nCook your own food! \n\nQuestions on that? Google it!",
 
 
-    "Avoid sugar. Yes some stuff is \nspecifically evil: \n\nWhite bread, potatoes, white rice \nand pasta. Crackers, oh dear. Chips, well yes. Also candy. \nYes I know, all the delicious stuff. \n\nBut hey, once in a while is fine. Just don't overdo it. ",
+    "Avoid sugar. Yes some stuff is specifically evil: \n\nWhite bread, potatoes, white rice and pasta. Crackers, oh dear. Chips, well yes. Also candy. \nYes I know, all the delicious stuff. \n\nBut hey, once in a while is fine. Just don't overdo it. ",
 
 
-    "Have a craving? \nNo worries, we all have it from time to time. Some ideas for snacking: \n\nNuts, seeds, vegetables, fruits. \n\nSounds boring? Try before you say that, \nmy friend.",
+    "Have a craving? \nNo worries, we all have it from time to time. Some ideas for snacking: \n\nNuts, seeds, vegetables, fruits. \n\nSounds boring? Try before you say that, my friend.",
 
 
     "Drink water. Full stop.",
