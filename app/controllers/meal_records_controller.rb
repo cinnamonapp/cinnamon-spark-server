@@ -36,7 +36,8 @@ class MealRecordsController < ApplicationController
 
   # GET /meal_records/estimate
   def estimate
-    @meal_records = MealRecord.where("meal_records.carbs_estimate IS NULL").order(:created_at => :desc)
+    with_ingredient_ids = MealRecord.includes(:meal_record_ingredients).where("meal_record_ingredients.id IS NOT NULL").map(&:id)
+    @meal_records = MealRecord.where("meal_records.carbs_estimate IS NULL AND meal_records.id NOT IN (?)", with_ingredient_ids).order(:created_at => :desc)
   end
 
   # GET /meal_records/1

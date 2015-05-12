@@ -24,7 +24,9 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.find_by_device_uuid(user_params[:device_uuid]) || User.new(user_params)
+    @user = User.find_by_id(user_params[:id]) || User.find_by_device_uuid(user_params[:device_uuid]) || User.new(user_params)
+
+    @user.device_uuid = user_params[:device_uuid] if user_params[:device_uuid]
 
     respond_to do |format|
       if @user.save
