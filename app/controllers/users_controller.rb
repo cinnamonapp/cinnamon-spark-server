@@ -27,6 +27,7 @@ class UsersController < ApplicationController
     @user = User.find_by_id(user_params[:id]) || User.find_by_device_uuid(user_params[:device_uuid]) || User.new(user_params)
 
     @user.device_uuid = user_params[:device_uuid] if user_params[:device_uuid]
+    @user.time_zone = user_params[:time_zone] if user_params[:time_zone]
 
     respond_to do |format|
       if @user.save
@@ -71,6 +72,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:device_uuid, :username, :profile_picture, :push_notification_token, :device_type)
+      params.require(:user).permit(:id, :device_uuid, :username, :profile_picture, :push_notification_token, :device_type, :time_zone)
     end
 end

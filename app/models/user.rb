@@ -24,6 +24,14 @@ class User < ActiveRecord::Base
     end
   end
 
+  def current_time
+    time = DateTime.now.utc
+    zone = (self.time_zone) ? self.time_zone.to_i : 2
+
+    time += zone.hours
+
+    return time
+  end
 
   def meal_records_count
     self.meal_records.count

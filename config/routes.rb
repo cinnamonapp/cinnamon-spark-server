@@ -18,6 +18,10 @@ CinnamonSparkServer::Application.routes.draw do
   namespace :api, :defaults => { :format => :json } do
     namespace :v1 do
 
+      resources :users do
+        resources :dashboard
+      end
+
       namespace :fat_secret do
         resources :foods do
           get 'carbs_per_cup' => 'foods#carbs_per_cup'

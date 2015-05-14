@@ -8,13 +8,23 @@ class MealRecord < ActiveRecord::Base
   has_attached_file :photo, styles: {
     thumbnail: "100x100>",
     medium: "300x300>",
-    large: "800x800>"
+    large: "800x800>",
+    blurred_background: {
+      processors: [:blur]
+    }
   }
 
   belongs_to :user
 
   has_many :meal_record_ingredients
   has_many :ingredients, through: :meal_record_ingredients
+
+
+  scope :created_at_date, lambda{|date| where("DATE(meal_records.created_at) = DATE(?)", date)}
+
+  def self.most_recent
+    order(:created_at => :desc).each.first
+  end
 
   # Returns the grams of carbs in the meal_record based on its ingredients
   def carbs_estimate_grams

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150429132313) do
+ActiveRecord::Schema.define(version: 20150513161025) do
 
   create_table "in_app_purchase_products", force: true do |t|
     t.string  "product_identifier",                null: false
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 20150429132313) do
     t.datetime "profile_picture_updated_at"
     t.text     "push_notification_token"
     t.string   "device_type"
+    t.string   "time_zone"
   end
 
 end

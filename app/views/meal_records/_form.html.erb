@@ -123,7 +123,7 @@
           + "</div>"
           + "<div class='col-xs-2' style='padding:0; text-align: right;'>"
             + "<input type='hidden' name='meal_record[fat_secret_ingredients][][food_id]' value='" + suggested_food.data.foodId + "'>"
-            + "<input type='number' name='meal_record[fat_secret_ingredients][][percentage_in_meal_record]' value='" + suggested_food.data.percentageInMealRecord + "' class='form-control input-sm' min=0 max=100>"
+            + "<input type='number' class='meal_record_fat_secret_ingredients_percentage' name='meal_record[fat_secret_ingredients][][percentage_in_meal_record]' value='" + suggested_food.data.percentageInMealRecord + "' class='form-control input-sm' min=0 max=100>"
           + "</div>"
           + "<div class='col-xs-2' style='padding-left:0; text-align: right;'>"
             + "<span href='#' class='btn btn-default btn-sm' onclick='pickedFood.splice(" + index + ", 1); reloadList();'>&times;</span>"
@@ -178,4 +178,12 @@
   })
 
   reloadList()
+
+  $("#edit_meal_record_695").submit(function (event) {
+    var percentages = $(".meal_record_fat_secret_ingredients_percentage").map(function () {
+      return $(this).val();
+    })
+
+
+  })
 </script>
