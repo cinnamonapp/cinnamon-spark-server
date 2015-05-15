@@ -3,6 +3,7 @@ json.dashboard do
   json.daily_used_carbs       @day_used_carbs
   json.daily_remaining_carbs  @remaining_carbs
 
+  json.smart_alert_message @smart_alert
   json.background_image (@background_image) ? asset_url(@background_image) : nil
 
   json.last_meal_record do
@@ -14,5 +15,4 @@ json.dashboard do
   end
 
   json.current_streak @current_streak
-  json.smart_alert_message @smart_alert
 end

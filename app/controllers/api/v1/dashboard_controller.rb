@@ -3,7 +3,7 @@ class Api::V1::DashboardController < Api::V1::BaseController
 
   # The default action
   def index
-    @default_grams_limit  = 150
+    @default_grams_limit  = 250
     @day_used_carbs =  0
     @remaining_carbs      =  0
 
