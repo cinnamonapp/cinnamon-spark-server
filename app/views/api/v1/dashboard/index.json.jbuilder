@@ -12,4 +12,7 @@ json.dashboard do
   json.user do
     json.partial! 'users/show', user: @user
   end
+
+  json.current_streak @current_streak
+  json.smart_alert_message @smart_alert
 end

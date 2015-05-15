@@ -26,6 +26,9 @@ class Api::V1::DashboardController < Api::V1::BaseController
     random_meal_record = MealRecord.all.sample
 
     @background_image = (@last_meal_record.present?) ? @last_meal_record.photo.url(:blurred_background) : random_meal_record.photo.url(:blurred_background) || random_meal_record.photo.url(:original)
+
+    @current_streak = current_streak
+    @smart_alert = smart_alert
   end
 
 
@@ -35,4 +38,43 @@ class Api::V1::DashboardController < Api::V1::BaseController
     @user = User.find_by_device_uuid(params[:user_id]) || User.find_by_id(params[:user_id])
   end
 
+  def current_streak
+    streak = []
+
+    today = @user.current_time.to_date
+    aweekago = today - 6.days
+
+    current_week = aweekago..today
+
+    current_week.each do |day|
+      meal_records = @user.meal_records.created_at_date(day)
+
+      carbs_used = 0
+      meal_records.each do |meal_record|
+        carbs_used += meal_record.carbs_estimate_grams
+      end
+
+      streak << {
+        date: day,
+        daily_carbs_limit: @default_grams_limit,
+        daily_used_carbs: carbs_used,
+        meal_records_count: meal_records.count
+      }
+    end
+
+    streak
+  end
+
+  def smart_alert
+    date = @user.current_time
+    meal_records = @user.meal_records.created_at_date(date)
+
+    message = "Doing a great job as always my friend."
+
+    if meal_records.empty?
+      message = "Start your day with high quality carbs!"
+    end
+
+    message
+  end
 end
