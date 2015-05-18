@@ -1,5 +1,5 @@
 if user
-  json.id user.id
+  json.id user.id.to_s
   json.username user.username.to_s
   json.device_uuid user.device_uuid
   json.profile_picture_nano_url asset_url(user.profile_picture.url(:nano))
