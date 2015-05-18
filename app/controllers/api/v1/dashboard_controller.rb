@@ -72,7 +72,7 @@ class Api::V1::DashboardController < Api::V1::BaseController
     message = "Doing a great job as always my friend."
 
     if meal_records.empty?
-      message = "Start your day with high quality carbs!"
+      message = "Your daily goal is #{@default_grams_limit}g.\nTake a picture and get started."
     end
 
     message
