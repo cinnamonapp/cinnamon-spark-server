@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150513161025) do
+ActiveRecord::Schema.define(version: 20150519140202) do
 
   create_table "in_app_purchase_products", force: true do |t|
     t.string  "product_identifier",                null: false
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 20150513161025) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "title"
+    t.integer  "serving",            default: 1
   end
 
   create_table "users", force: true do |t|
@@ -71,6 +72,7 @@ ActiveRecord::Schema.define(version: 20150513161025) do
     t.text     "push_notification_token"
     t.string   "device_type"
     t.string   "time_zone"
+    t.integer  "daily_carbs_need",             default: 200
   end
 
 end

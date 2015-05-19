@@ -151,6 +151,7 @@ class MealRecordsController < ApplicationController
       params.require(:meal_record).permit(
         :title,
         :size,
+        :serving,
         :carbs_estimate,
         :photo,
         :fat_secret_ingredients => [:food_id, :percentage_in_meal_record],

@@ -1,5 +1,5 @@
 json.dashboard do
-  json.daily_carbs_limit      @default_grams_limit
+  json.daily_carbs_limit      @daily_carbs_need
   json.daily_used_carbs       @day_used_carbs
   json.daily_remaining_carbs  @remaining_carbs
 

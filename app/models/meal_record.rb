@@ -1,6 +1,7 @@
 class MealRecord < ActiveRecord::Base
 
-  SIZES = ["1/2 cup", "1 cup", "2 cup"]
+  SIZES = ["0.5", "1", "1.5", "2"]
+  SERVINGS = ["Cup", "Piece"]
   CARBS_ESTIMATE = ["Low", "Medium", "High"]
 
   paginates_per 10
@@ -35,6 +36,10 @@ class MealRecord < ActiveRecord::Base
     end
 
     if self.size == 3
+      size_coeff = 1.5
+    end
+
+    if self.size == 4
       size_coeff = 2
     end
 

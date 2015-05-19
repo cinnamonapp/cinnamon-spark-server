@@ -25,7 +25,7 @@
 
 <p>
   <strong>Photo:</strong><br>
-  <%= image_tag @meal_record.photo.url(:original) %>
+  <%= image_tag @meal_record.photo.url(:large) %>
 </p>
 
 <%= link_to 'Edit', edit_meal_record_path(@meal_record) %> |

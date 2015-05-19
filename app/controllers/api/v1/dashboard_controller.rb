@@ -4,6 +4,8 @@ class Api::V1::DashboardController < Api::V1::BaseController
   # The default action
   def index
     @default_grams_limit  = 250
+
+    @daily_carbs_need = @user.daily_carbs_need || @default_grams_limit
     @day_used_carbs =  0
     @remaining_carbs      =  0
 
@@ -19,7 +21,7 @@ class Api::V1::DashboardController < Api::V1::BaseController
     meal_records.each do |meal_record|
       @day_used_carbs += meal_record.carbs_estimate_grams
     end
-    @remaining_carbs = @default_grams_limit - @day_used_carbs
+    @remaining_carbs = @daily_carbs_need - @day_used_carbs
 
     @last_meal_record = meal_records.most_recent
 
@@ -56,7 +58,7 @@ class Api::V1::DashboardController < Api::V1::BaseController
 
       streak << {
         date: day,
-        daily_carbs_limit: @default_grams_limit,
+        daily_carbs_limit: @daily_carbs_need,
         daily_used_carbs: carbs_used,
         meal_records_count: meal_records.count
       }
@@ -72,7 +74,7 @@ class Api::V1::DashboardController < Api::V1::BaseController
     message = "Doing a great job as always my friend."
 
     if meal_records.empty?
-      message = "Your daily goal is #{@default_grams_limit}g.\nTake a picture and get started."
+      message = "Your daily goal is #{@daily_carbs_need}g.\nTake a picture and get started."
     end
 
     message

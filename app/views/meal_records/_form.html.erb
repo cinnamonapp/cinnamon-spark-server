@@ -20,7 +20,7 @@
   <div class="row">
     <div class="col-sm-5">
       <% if @meal_record.photo.present? %>
-        <%= image_tag @meal_record.photo.url(:original), class: "img-responsive" %>
+        <%= image_tag @meal_record.photo.url(:large), class: "img-responsive" %>
       <% end %>
       <br>
       <% unless params[:easy_mode] %>
@@ -46,6 +46,8 @@
       </div>
 
       <%= f.input :size, collection: MealRecord::SIZES.each_with_index.map{|size, index| [size, index + 1]} %>
+
+      <%= f.input :serving, collection: MealRecord::SERVINGS.each_with_index.map{|serving, index| [serving, index + 1]} %>
 
       <div class="form-group select optional meal_record_fat_secret_ingredients">
         <label class="select optional control-label">Ingredients</label>
