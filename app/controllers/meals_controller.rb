@@ -7,7 +7,7 @@ class Meal
   end
 
   def carbs_estimate
-    total_carbs = (0..0)
+    total_carbs = (1..1)
 
     self.meal_records.each do |meal_record|
       total_carbs += meal_record.total_carbs_estimate_to_range if meal_record.carbs_estimate.present?

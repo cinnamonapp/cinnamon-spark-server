@@ -13,7 +13,7 @@ class Range
       range = extract_range_from_value(value)
 
       # Assume we want to work with int only
-      return (self / (1 / value).to_i) if value.kind_of?(Float)
+      return (self / (1 / value).to_i) if value.kind_of?(Float) and value < 1
 
       newfirst  = self.first * range.first
       newlast   = self.last * range.last
