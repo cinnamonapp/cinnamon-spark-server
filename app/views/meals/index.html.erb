@@ -48,30 +48,26 @@
   end
  %>
 
-
 <% @meals.each_with_index do |meal, index| %>
 
 
   <div class="section-title">
-    <% if meal.carbs_estimate_grams > 0 %>
-      <%= meal.carbs_estimate_grams %> g of carbs
+    <% if meal.created_at.to_date == Date.today %>
+      Today
+    <% elsif meal.created_at.to_date == Date.yesterday %>
+      Yesterday
     <% else %>
-      &nbsp;
+      <%= meal.created_at.strftime("%A, %d %h %Y") %>
     <% end %>
-    <span style="float: right;">
-      <% if meal.created_at.to_date == Date.today %>
-        Today
-      <% elsif meal.created_at.to_date == Date.yesterday %>
-        Yesterday
-      <% else %>
-        <%= meal.created_at.strftime("%A, %d %h %Y") %>
-      <% end %>
-      -
-      <%= (meal.created_at + 2.hours).strftime("%l:%M %P") %>
-    </span>
+    at
+    <%= (meal.created_at + 2.hours).strftime("%l:%M %P") %>
   </div>
 
-  <div class="meal-records clearfix meal-records-carb-<%= (meal.carbs_estimate.compare_to(30..50) + 2) %>" title="<%= meal.carbs_estimate %>">
+  <div class="meal-records clearfix">
+
+    <div class="circle" style="position: absolute; top: 70px; right:5px;" data-progress="<%= meal.carbs_estimate_grams.to_f / @user.daily_carbs_need.to_f %>">
+    </div>
+
     <% meal.meal_records.sort{|a, b| b.size <=> a.size}.each do |meal_record| %>
       <div class="meal-container meal-size-<%= meal_record.size %>">
         <div class="meal meal-carb-<%= meal_record.carbs_estimate %>">
@@ -114,7 +110,7 @@
     padding: 0;
     background: white;
   }
-  
+
   *{
     -moz-user-select: -moz-none;
     -khtml-user-select: none;
@@ -147,3 +143,70 @@
     } );
   };
 </script> -->
+
+
+<% if @meal_records.any? %>
+  <style media="screen">
+    body{
+      background: url("<%= @meal_records.first.photo.url(:blurred_background) %>");
+      background-position: top center;
+      background-attachment: fixed;
+    }
+
+    .container{
+      background: transparent;
+    }
+  </style>
+<% end %>
+
+<script type="text/javascript">
+  var updateView = function(){
+    var mealsContainers = $(".meal-records");
+    var viewWidth = mealsContainers.width();
+    var ringReservedSpace = viewWidth * 0.35;
+    var availableWidth = viewWidth - ringReservedSpace;
+    var availableHeight = mealsContainers.height();
+
+    $.each(mealsContainers, function(){
+      var mealContainer = $(this)
+      var mealRecordContainers = mealContainer.find(".meal-container");
+      var spaceBetweenMealRecords = (availableWidth / mealRecordContainers.length);
+
+      var offsetLeft = Math.floor(mealContainer.css("paddingLeft").replace("px", ""))
+      var offsetTop = Math.floor(mealContainer.css("paddingTop").replace("px", ""))
+
+      var optimalLeft = offsetLeft
+      $.each(mealRecordContainers, function(index){
+        var mealRecord = $(this);
+
+        var left = spaceBetweenMealRecords * index + offsetLeft
+        var top = availableHeight / 2 - mealRecord.height() / 2 + offsetTop
+
+        if(left > optimalLeft){
+          left = optimalLeft
+        }
+
+        mealRecord.css("left", (left)+"px");
+        mealRecord.css("top", (top)+"px")
+
+        optimalLeft += mealRecord.width() * 0.8
+      });
+    });
+  }
+
+  updateView()
+</script>
+
+<script type="text/javascript">
+  $.circleProgress.defaults.size = 65;
+
+  $.each($('.circle'), function(){
+    $(this).circleProgress({
+        value: $(this).data("progress") || 0,
+        lineCap: "round",
+        fill: {
+            gradient: ["red"]
+        }
+    });
+  });
+</script>

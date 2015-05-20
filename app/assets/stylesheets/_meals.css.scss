@@ -4,15 +4,24 @@ $green: #A9B38C;
 
   body{
     padding: 0;
+    padding-top: 50px;
   }
 
   .section-title{
     padding: 5px;
-    font-size: 10px;
+    font-size: 12px;
+    text-align: center;
+    font-family: Futura;
+    font-weight: 400;
+    color: white;
   }
 
   .meal-records{
-    padding: 20px 5px;
+    padding: 15px 20px;
+
+    height: 200px;
+
+    position: relative;
 
     &.meal-records-carb-1{
       background-color: $green;
@@ -26,16 +35,18 @@ $green: #A9B38C;
   }
 
   .meal-container{
-    padding: 5px;
+    /* padding: 5px; */
     box-sizing: border-box;
     display: block;
     float: left;
     margin: auto;
 
+    position: absolute;
+
     .meal{
       border-radius: 50%;
       overflow: hidden;
-      border: 7px solid rgb(239, 242, 230);
+      /* border: 7px solid rgb(239, 242, 230); */
       box-shadow: 0px 0px 0px 2px white;
 
       img{
@@ -44,7 +55,7 @@ $green: #A9B38C;
       }
     }
 
-    &:first-child:last-child{
+    /* &:first-child:last-child{
       float: none;
 
       &.meal-size-1{
@@ -55,11 +66,11 @@ $green: #A9B38C;
         margin-top: 20px;
         margin-bottom: 20px;
       }
-    }
+    } */
 
-    &.meal-size-1{
-      height: 25%;
-      width: 25%;
+    &.meal-size-1, &.meal-size-0, &.meal-size-{
+      height: 80px;
+      width: 80px;
 
       img{
         -webkit-transform: scale(3);
@@ -67,8 +78,8 @@ $green: #A9B38C;
     }
 
     &.meal-size-2{
-      height: 50%;
-      width: 50%;
+      height: 100px;
+      width: 100px;
 
       img{
         -webkit-transform: scale(2);
@@ -76,8 +87,17 @@ $green: #A9B38C;
     }
 
     &.meal-size-3{
-      height: 100%;
-      width: 100%;
+      height: 125px;
+      width: 125px;
+
+      img{
+        -webkit-transform: scale(1.2);
+      }
+    }
+
+    &.meal-size-4{
+      height: 150px;
+      width: 150px;
 
       img{
         -webkit-transform: scale(1.2);

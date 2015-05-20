@@ -38,6 +38,8 @@ class MealsController < ApplicationController
     meal_records = @user.meal_records if @user
     meal_records = meal_records.order(:created_at => :desc)
 
+    @meal_records = meal_records
+
     # For each +1 meal records
     meal_records.each_with_index do |meal_record, index|
       if index > 0

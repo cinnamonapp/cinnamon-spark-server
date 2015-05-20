@@ -15,4 +15,5 @@
 //= require twitter/bootstrap
 //= require turbolinks
 //= require jquery.autocomplete.js
+//= require circle-progress
 //= require_tree .
