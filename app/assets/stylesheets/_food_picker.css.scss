@@ -2,10 +2,12 @@
 
   .input-autocomplete{
     @extend .form-control;
+    margin-bottom: 10px;
   }
 
   .food-picker-foods{
     @extend .list-group;
+    margin-bottom: 0;
 
     li{
       @extend .list-group-item;

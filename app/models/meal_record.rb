@@ -29,19 +29,10 @@ class MealRecord < ActiveRecord::Base
 
   # Returns the grams of carbs in the meal_record based on its ingredients
   def carbs_estimate_grams
-    size_coeff = 1
 
-    if self.size == 1
-      size_coeff = 0.5
-    end
+    return self.forced_carbs_estimate_grams if self.forced_carbs_estimate_grams.present?
 
-    if self.size == 3
-      size_coeff = 1.5
-    end
-
-    if self.size == 4
-      size_coeff = 2
-    end
+    size_coeff = self.real_size
 
     carbs_sum = 0
 

@@ -82,32 +82,15 @@ class MealRecordsController < ApplicationController
   # PATCH/PUT /meal_records/1
   # PATCH/PUT /meal_records/1.json
   def update
-    old_carbs_estimate = @meal_record.carbs_estimate
-    old_carbs_estimate_grams = @meal_record.carbs_estimate_grams
 
     respond_to do |format|
-      if @meal_record.update(meal_record_params)
+      mr_params = meal_record_params
+      # If you don't send this through the form I will put it to nil
+      mr_params[:forced_carbs_estimate_grams] = nil unless mr_params[:forced_carbs_estimate_grams].present?
+      if @meal_record.update(mr_params)
 
         if params[:notify_user].present?
-          array = [
-            "Hello beauty, we have your carbs!",
-            "Carbs are there. Check now!",
-            "FYI, carbs are there now!",
-            "#{MealRecord::CARBS_ESTIMATE[@meal_record.carbs_estimate - 1]} in carbs. Make that count!",
-            "Enjoying your day? Carbs are there now",
-            "You and your carbs are amazing. Have a look",
-            "#{MealRecord::CARBS_ESTIMATE[@meal_record.carbs_estimate - 1]} in carbs. That was soooo good!",
-            "I wish I had that dish too. Check your carbs now"
-          ]
-
-          if @meal_record.carbs_estimate == 1
-            array.push "Low in carbs. AMAZING!"
-            array.push "Low in carbs. Couldn't do better!"
-            array.push "That low in carbs really made my day! Check that out"
-            array.push "I am speechless. See how great you did"
-          end
-
-          @meal_record.user.send_push_notification(array.sample,
+          @meal_record.user.send_push_notification(sample_notification,
             content_available: true,
             custom_data: {meal_record_id: @meal_record.id}
           )
@@ -153,6 +136,7 @@ class MealRecordsController < ApplicationController
         :size,
         :serving,
         :carbs_estimate,
+        :forced_carbs_estimate_grams,
         :photo,
         :fat_secret_ingredients => [:food_id, :percentage_in_meal_record],
         :ingredients => []
@@ -202,5 +186,32 @@ class MealRecordsController < ApplicationController
       mr.user = User.find_or_create_by_username("Mr. Cinnamon")
 
       @meal_records = @meal_records.to_a.insert(2, mr)
+    end
+
+
+    private
+    def sample_notification
+      array = [
+        "Hello beauty, we have your carbs!",
+        "Carbs are there. Check now!",
+        "FYI, carbs are there now!",
+        "Enjoying your day? Carbs are there now",
+        "You and your carbs are amazing. Have a look",
+        "I wish I had that dish too. Check your carbs now"
+      ]
+
+      if @meal_record.carbs_estimate
+        array.push "#{MealRecord::CARBS_ESTIMATE[@meal_record.carbs_estimate - 1]} in carbs. Make that count!"
+        array.push "#{MealRecord::CARBS_ESTIMATE[@meal_record.carbs_estimate - 1]} in carbs. That was soooo good!"
+
+        if @meal_record.carbs_estimate == 1
+          array.push "Low in carbs. AMAZING!"
+          array.push "Low in carbs. Couldn't do better!"
+          array.push "That low in carbs really made my day! Check that out"
+          array.push "I am speechless. See how great you did"
+        end
+      end
+
+      array.sample
     end
 end

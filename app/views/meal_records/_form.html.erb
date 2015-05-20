@@ -25,40 +25,49 @@
       <br>
       <% unless params[:easy_mode] %>
         <%= f.input :photo %>
+        <%= f.input :carbs_estimate, collection: MealRecord::CARBS_ESTIMATE.each_with_index.map{|size, index| [size, index + 1]} %>
       <% end %>
+      <div class="form-group">
+          <%= f.label :user %>
+          <%= link_to @meal_record.user.username, user_url(@meal_record.user) if @meal_record.user %>
+          <%= "No user" unless @meal_record.user %>
+      </div>
     </div>
 
 
     <div class="col-sm-7">
       <div class="spoiler">
         <div class="spoiler-message">
-          Compressed. <a href="javascript:$('.spoiler').removeClass('hide-content');">Press to expand.</a>
+          <span class="spoiler-custom-message">Compressed.</span><br><a href="javascript:$('.spoiler').removeClass('hide-content');">Press to expand.</a>
         </div>
         <%= f.input :title %>
-
-        <%= f.input :carbs_estimate, collection: MealRecord::CARBS_ESTIMATE.each_with_index.map{|size, index| [size, index + 1]} %>
-
-        <div class="form-group">
-            <%= f.label :user %>
-            <%= link_to @meal_record.user.username, user_url(@meal_record.user) if @meal_record.user %>
-            <%= "No user" unless @meal_record.user %>
-        </div>
+        <%= f.input :size, collection: MealRecord::SIZES.each_with_index.map{|size, index| [size, index + 1]} %>
+        <%= f.input :serving, collection: MealRecord::SERVINGS.each_with_index.map{|serving, index| [serving, index + 1]} %>
       </div>
 
-      <%= f.input :size, collection: MealRecord::SIZES.each_with_index.map{|size, index| [size, index + 1]} %>
 
-      <%= f.input :serving, collection: MealRecord::SERVINGS.each_with_index.map{|serving, index| [serving, index + 1]} %>
 
       <div class="form-group select optional meal_record_fat_secret_ingredients">
         <label class="select optional control-label">Ingredients</label>
         <div class="food-picker" id="foodPicker">
           <input type="text" placeholder="Type to search on FatSecret..." class="input-autocomplete">
-          <br>
-          <ul class="food-picker-foods">
+          <ul class="food-picker-foods no-margin">
           </ul>
+
+          <% unless @meal_record.forced_carbs_estimate_grams %>
+            <a href="#" onclick="$('#forced_carbs_estimate_grams').removeClass('hidden'); $(this).remove();">Want to force carbs estimate?</a>
+            <!-- true -->
+          <% end %>
         </div>
       </div>
 
+      <% unless @meal_record.forced_carbs_estimate_grams %>
+      <div id="forced_carbs_estimate_grams" class="hidden">
+      <% end %>
+        <%= f.input :forced_carbs_estimate_grams, placeholder: "Leave blank to use the automatic estimate" %>
+      <% unless @meal_record.forced_carbs_estimate_grams %>
+      </div>
+      <% end %>
 
     </div>
   </div>
@@ -136,13 +145,29 @@
     })
   }
 
-  $("#foodPicker input").focus(function (event) {
+  var hideSpoilerContent = function () {
     $(".spoiler").addClass("hide-content");
+
+    var title = ($("#meal_record_title").val() == "") ? "No hashtags" : $("#meal_record_title").val()
+
+    $(".spoiler-custom-message").html(
+      "Title: <b>" + title + "</b>" +
+      " - Size: <b>" + $("#meal_record_size>option:selected").text() + "</b>" +
+      " - Serving: <b>" + $("#meal_record_serving>option:selected").text() + "</b>"
+    );
+  }
+
+  $("#foodPicker input").focus(function (event) {
+    hideSpoilerContent();
   })
 
   $("#foodPicker input").blur(function (event) {
     // $(".spoiler").removeClass("hidden");
   })
+
+  <% if params[:easy_mode].present? %>
+    hideSpoilerContent();
+  <% end %>
 
   $(".input-autocomplete").autocomplete({
     serviceUrl: "/api/v1/fat_secret/foods",

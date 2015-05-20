@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150519140202) do
+ActiveRecord::Schema.define(version: 20150520093529) do
 
   create_table "in_app_purchase_products", force: true do |t|
     t.string  "product_identifier",                null: false
@@ -57,7 +57,8 @@ ActiveRecord::Schema.define(version: 20150519140202) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "title"
-    t.integer  "serving",            default: 1
+    t.integer  "serving",                     default: 1
+    t.integer  "forced_carbs_estimate_grams"
   end
 
   create_table "users", force: true do |t|
