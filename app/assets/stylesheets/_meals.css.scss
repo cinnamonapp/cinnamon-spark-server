@@ -16,6 +16,24 @@ $green: #A9B38C;
     color: white;
   }
 
+  .circle::after{
+    content: attr(data-value) "g";
+    display: block;
+    position: absolute;
+    border-radius: 50%;
+    background: red;
+    padding: 15px 0px;
+    height: 49px;
+    width: 49px;
+    color: white;
+    font-size: 18px;
+    font-family: Futura;
+    font-style: italic;
+    text-align: center;
+    top: 8px;
+    left: 8px;
+  }
+
   .meal-records{
     padding: 15px 20px;
 

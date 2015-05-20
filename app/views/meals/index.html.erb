@@ -16,7 +16,7 @@
 
   <div class="meal-records clearfix">
 
-    <div class="circle" style="position: absolute; top: 70px; right:5px;" data-progress="<%= meal.carbs_estimate_grams.to_f / @user.daily_carbs_need.to_f %>">
+    <div class="circle" style="position: absolute; top: 70px; right:5px;" data-value="<%= meal.carbs_estimate_grams %>" data-progress="<%= meal.carbs_estimate_grams.to_f / @user.daily_carbs_need.to_f %>">
     </div>
 
     <% meal.meal_records.sort{|a, b| b.size <=> a.size}.each do |meal_record| %>
@@ -35,12 +35,11 @@
 <style media="screen">
   /*html,body{
     background: #EFF2E6;
-  }
+  }*/
 
   .container{
     padding: 0;
-    background: white;
-  }*/
+  }
 
   *{
     -moz-user-select: -moz-none;
