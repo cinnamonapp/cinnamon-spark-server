@@ -108,8 +108,14 @@ class MealRecord < ActiveRecord::Base
       return 1
     end
     if self.size == 3
+      return 1.5
+    end
+    if self.size == 4
       return 2
     end
+
+    puts "MealRecord.rb#real_size => Size not implemented."
+    return 1
   end
 
 end
