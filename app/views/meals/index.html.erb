@@ -9,10 +9,9 @@
     <% elsif meal.created_at.to_date == Date.yesterday %>
       Yesterday
     <% else %>
-      <%= meal.created_at.strftime("%A, %d %h %Y") %>
+      <%= meal.created_at.strftime("%a, %d %h %Y") %>
     <% end %>
-    at
-    <%= (meal.created_at + 2.hours).strftime("%l:%M %P") %>
+    <%= (meal.created_at + @user.time_zone.to_i.hours).strftime("%l:%M%P") %>
   </div>
 
   <div class="meal-records clearfix">

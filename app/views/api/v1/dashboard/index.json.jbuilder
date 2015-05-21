@@ -2,6 +2,7 @@ json.dashboard do
   json.daily_carbs_limit      @daily_carbs_need
   json.daily_used_carbs       @day_used_carbs
   json.daily_remaining_carbs  @remaining_carbs
+  json.current_status_at_time carbs_compare(@user.current_time.hour, @day_used_carbs, @daily_carbs_need)
 
   json.smart_alert_message @smart_alert
   json.background_image (@background_image) ? asset_url(@background_image) : nil
