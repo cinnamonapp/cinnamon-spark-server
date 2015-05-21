@@ -36,4 +36,12 @@ class User < ActiveRecord::Base
   def meal_records_count
     self.meal_records.count
   end
+
+  def daily_carbs_need_per_meal
+    self.daily_carbs_need / 3
+  end
+
+  def daily_carbs_need_per_meal_range
+    ((self.daily_carbs_need_per_meal - 50/3)..self.daily_carbs_need_per_meal)
+  end
 end

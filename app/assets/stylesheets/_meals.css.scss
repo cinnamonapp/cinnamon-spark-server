@@ -2,6 +2,10 @@ $red: #AB0500;
 $yellow: #F7C14C;
 $green: #A9B38C;
 
+$above_color: #004040;
+$within_color: #378C84;
+$below_color: #DA967C;
+
   body{
     padding: 0;
     padding-top: 50px;
@@ -16,22 +20,35 @@ $green: #A9B38C;
     color: white;
   }
 
-  .circle::after{
-    content: attr(data-value) "g";
-    display: block;
-    position: absolute;
-    border-radius: 50%;
-    background: red;
-    padding: 15px 0px;
-    height: 49px;
-    width: 49px;
-    color: white;
-    font-size: 18px;
-    font-family: Futura;
-    font-style: italic;
-    text-align: center;
-    top: 8px;
-    left: 8px;
+  .circle{
+
+    &::after{
+      content: attr(data-value) "g";
+      display: block;
+      position: absolute;
+      border-radius: 50%;
+      background: red;
+      padding: 15px 0px;
+      height: 49px;
+      width: 49px;
+      color: white;
+      font-size: 18px;
+      font-family: Futura;
+      font-style: italic;
+      text-align: center;
+      top: 8px;
+      left: 8px;
+    }
+
+    &.above::after, &.circle-color-1::after{
+      background: $above_color;
+    }
+    &.within::after, &.circle-color-0::after{
+      background: $within_color;
+    }
+    &.below::after, &.circle-color--1::after{
+      background: $below_color;
+    }
   }
 
   .meal-records{
