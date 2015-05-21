@@ -21,6 +21,25 @@ $below_color: #DA967C;
   }
 
   .circle{
+    width: 65px;
+    height: 65px;
+    overflow: hidden;
+    z-index: 100;
+
+    canvas{
+      -webkit-transform: scale(0.5);
+      -moz-transform: scale(0.5);
+      -ms-transform: scale(0.5);
+      -o-transform: scale(0.5);
+      transform: scale(0.5);
+
+      -webkit-transform-origin: top left;
+      -moz-transform-origin: top left;
+      -ms-transform-origin: top left;
+      -o-transform-origin: top left;
+      transform-origin: top left;
+
+    }
 
     &::after{
       content: attr(data-value) "g";
