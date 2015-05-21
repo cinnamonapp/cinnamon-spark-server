@@ -80,20 +80,6 @@
 </script> -->
 
 
-<% if @meal_records.any? %>
-  <style media="screen">
-    body{
-      background: url("<%= @meal_records.first.photo.url(:blurred_background) %>");
-      background-position: top center;
-      background-attachment: fixed;
-    }
-
-    .container{
-      background: transparent;
-    }
-  </style>
-<% end %>
-
 <script type="text/javascript">
   var updateView = function(){
     var mealsContainers = $(".meal-records");
@@ -129,7 +115,9 @@
     });
   }
 
-  updateView()
+  $(document).ready(function () {
+    updateView()
+  })
 </script>
 
 <script type="text/javascript">
@@ -156,3 +144,31 @@
     });
   });
 </script>
+
+
+
+
+
+<% if @meal_records.any? %>
+  <img  src="<%= @meal_records.first.photo.url(:blurred_background) %>"
+        style="
+        position: fixed;
+        top: 0;
+        height: 100%;
+        left: -50%;
+        z-index: -1;">
+  <style media="screen">
+    body{
+      overflow-x: hidden;
+    }
+    /*body{
+      background: url("<%= @meal_records.first.photo.url(:blurred_background) %>");
+      background-position: top center;
+      background-attachment: fixed;
+    }
+
+    .container{
+      background: transparent;
+    }*/
+  </style>
+<% end %>
