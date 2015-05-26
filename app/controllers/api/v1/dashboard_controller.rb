@@ -60,7 +60,8 @@ class Api::V1::DashboardController < Api::V1::BaseController
         date: day,
         daily_carbs_limit: @daily_carbs_need,
         daily_used_carbs: carbs_used,
-        meal_records_count: meal_records.count
+        meal_records_count: meal_records.count,
+        last_meal_record: meal_records.most_recent
       }
     end
 

@@ -11,9 +11,21 @@ json.dashboard do
     json.partial! 'meal_records/show', meal_record: @last_meal_record
   end
 
+  # The user
   json.user do
     json.partial! 'users/show', user: @user
   end
 
-  json.current_streak @current_streak
+  # The current week streak
+  json.current_streak @current_streak do |streak_day|
+    json.date               streak_day[:date]
+    json.daily_carbs_limit  streak_day[:daily_carbs_limit]
+    json.daily_used_carbs   streak_day[:daily_used_carbs]
+    json.status             carbs_compare(total_hours(), streak_day[:daily_used_carbs], streak_day[:daily_carbs_limit])
+    json.meal_records_count streak_day[:meal_records_count]
+
+    json.last_meal_record do
+      json.partial! 'meal_records/show', meal_record: streak_day[:last_meal_record]
+    end
+  end
 end
