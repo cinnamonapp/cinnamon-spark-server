@@ -13,23 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20150520093529) do
 
-  create_table "in_app_purchase_products", force: true do |t|
-    t.string  "product_identifier",                null: false
-    t.string  "type",                              null: false
-    t.string  "title",                             null: false
-    t.string  "description"
-    t.float   "price"
-    t.string  "price_locale"
-    t.boolean "is_enabled",         default: true
-  end
-
-  add_index "in_app_purchase_products", ["product_identifier"], name: "in_app_purchase_products_product_identifier_index", using: :btree
-  add_index "in_app_purchase_products", ["type"], name: "in_app_purchase_products_type_index", using: :btree
-
-  create_table "in_app_purchase_schema_info", id: false, force: true do |t|
-    t.integer "version", default: 0, null: false
-  end
-
   create_table "ingredients", force: true do |t|
     t.string   "name"
     t.integer  "carbs_per_cup"

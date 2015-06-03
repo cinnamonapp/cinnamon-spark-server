@@ -36,10 +36,6 @@ class Api::V1::DashboardController < Api::V1::BaseController
 
   private
 
-  def set_user
-    @user = User.find_by_device_uuid(params[:user_id]) || User.find_by_id(params[:user_id])
-  end
-
   def current_streak
     streak = []
 
