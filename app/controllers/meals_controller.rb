@@ -36,6 +36,20 @@ class MealsController < ApplicationController
 
     meal_records = MealRecord.all
     meal_records = @user.meal_records if @user
+
+    # Handle paginations
+    if query_params[:page]
+      meal_records = meal_records.page(query_params[:page])
+      meal_records = meal_records.per(query_params[:per_page]) if query_params[:per_page]
+    elsif query_params[:per_page]
+      meal_records = meal_records.page(1).per(query_params[:per_page])
+    else
+      meal_records = meal_records.page(1).per(50)
+    end
+
+    @page = query_params[:page] || 1
+    @per_page = query_params[:per_page] || 50
+
     meal_records = meal_records.order(:created_at => :desc)
 
     @meal_records = meal_records
@@ -112,4 +126,9 @@ class MealsController < ApplicationController
   def set_user
     @user = User.find_by_device_uuid(params[:user_id]) || User.find_by_id(params[:user_id]) if params[:user_id]
   end
+
+  def query_params
+    params.permit(:page, :per_page)
+  end
+
 end

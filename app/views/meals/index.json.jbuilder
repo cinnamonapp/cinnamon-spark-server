@@ -9,3 +9,5 @@ json.meals do
     json.meal_records meal.meal_records.sort{|a, b| b.size <=> a.size}, partial: "meal_records/show", as: :meal_record, hide_user: true
   end
 end
+json.page @page
+json.per_page @per_page
