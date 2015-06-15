@@ -1,90 +1,25 @@
-class Meal
-  attr_accessor :created_at, :meal_records
-
-  def initialize(params={})
-    self.created_at = params[:created_at] || nil
-    self.meal_records = params[:meal_records] || []
-  end
-
-  def carbs_estimate
-    total_carbs = (1..1)
-
-    self.meal_records.each do |meal_record|
-      total_carbs += meal_record.total_carbs_estimate_to_range if meal_record.carbs_estimate.present?
-    end
-
-    return total_carbs
-  end
-
-  def carbs_estimate_grams
-    total_carbs = 0
-
-    self.meal_records.each do |meal_record|
-      total_carbs += meal_record.carbs_estimate_grams
-    end
-
-    return total_carbs
-  end
-end
-
 class MealsController < ApplicationController
   before_filter :set_user, :only => [:index, :week_view]
 
   def index
     # Prepare an array of meals
-    @meals = [] # [Meal]
-
-    meal_records = MealRecord.all
-    meal_records = @user.meal_records if @user
+    @meals = Meal.all
+    @meals = @user.meals if @user
 
     # Handle paginations
     if query_params[:page]
-      meal_records = meal_records.page(query_params[:page])
-      meal_records = meal_records.per(query_params[:per_page]) if query_params[:per_page]
+      @meals = @meals.page(query_params[:page])
+      @meals = @meals.per(query_params[:per_page]) if query_params[:per_page]
     elsif query_params[:per_page]
-      meal_records = meal_records.page(1).per(query_params[:per_page])
+      @meals = @meals.page(1).per(query_params[:per_page])
     else
-      meal_records = meal_records.page(1).per(50)
+      @meals = @meals.page(1).per(50)
     end
 
     @page = query_params[:page] || 1
     @per_page = query_params[:per_page] || 50
 
-    meal_records = meal_records.order(:created_at => :desc)
-
-    @meal_records = meal_records
-
-    # For each +1 meal records
-    meal_records.each_with_index do |meal_record, index|
-      if index > 0
-        previous_meal_record = meal_records[index - 1]
-
-        # if the creation date is within 45 minutes after the creation date of the previous meal
-        if (meal_record.created_at - previous_meal_record.created_at).abs <= 45.minutes
-          # add it to the same group of the previous meal
-          meal = @meals.last
-          meal.meal_records.push meal_record
-
-          meal.created_at = meal_record.created_at if meal_record.created_at < meal.created_at
-        else
-          # create a new group
-          meal = Meal.new(
-            :created_at => meal_record.created_at,
-            :meal_records => [meal_record]
-          )
-
-          @meals.push meal
-        end
-      else
-        # Initialize the first Meal!
-        meal = Meal.new(
-          :created_at => meal_record.created_at,
-          :meal_records => [meal_record]
-        )
-
-        @meals.push meal
-      end
-    end
+    @meals = @meals.order(:created_at => :desc)
 
   end
 

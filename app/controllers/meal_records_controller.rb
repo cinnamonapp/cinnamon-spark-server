@@ -66,7 +66,10 @@ class MealRecordsController < ApplicationController
 
     respond_to do |format|
       if @meal_record.save
-        # This send an email to the admin team
+        
+        Meal.assign_to_last_or_create_by_meal_record(@meal_record)
+
+        # This sends an email to the admin team
         fork do
           Notifier.send_new_meal_record_uploaded_notification(@user, @meal_record).deliver
         end

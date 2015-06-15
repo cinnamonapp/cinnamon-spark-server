@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_many :meals
   has_many :meal_records
 
   has_attached_file :profile_picture, styles: {
@@ -8,6 +9,10 @@ class User < ActiveRecord::Base
     medium: "300x300>",
     large: "800x800>"
   }
+
+  def to_user_time_zone_with_date(date)
+    date + time_zone.to_i.hours
+  end
 
   def send_push_notification(message, options={})
     if self.push_notification_token.present? && message.present?
@@ -37,11 +42,31 @@ class User < ActiveRecord::Base
     self.meal_records.count
   end
 
-  def daily_carbs_need_per_meal
-    self.daily_carbs_need / 3
+
+  # Carbs needs
+  def upper_daily_carbs_need
+    self.daily_carbs_need
+  end
+
+  def lower_daily_carbs_need
+    calculate_lower_need_with_upper_need(upper_daily_carbs_need)
+  end
+
+  def upper_daily_carbs_need_per_meal
+    upper_daily_carbs_need / 3
+  end
+
+  def lower_daily_carbs_need_per_meal
+    lower_daily_carbs_need / 3
   end
 
   def daily_carbs_need_per_meal_range
-    ((self.daily_carbs_need_per_meal - 50/3)..self.daily_carbs_need_per_meal)
+    (lower_daily_carbs_need_per_meal..upper_daily_carbs_need_per_meal)
+  end
+
+
+  private
+  def calculate_lower_need_with_upper_need(carb_need)
+    carb_need - 50
   end
 end

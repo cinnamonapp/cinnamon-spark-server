@@ -1,6 +1,6 @@
 json.meals do
   json.array! @meals do |meal|
-    json.created_at   meal.created_at + @user.time_zone.to_i.hours
+    json.created_at  @user.to_user_time_zone_with_date(meal.created_at)
     json.carbs_estimate_grams meal.carbs_estimate_grams
     json.status (meal.carbs_estimate_grams..meal.carbs_estimate_grams).compare_to(@user.daily_carbs_need_per_meal_range)
     json.user do

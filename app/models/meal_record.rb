@@ -1,5 +1,7 @@
 class MealRecord < ActiveRecord::Base
 
+  after_update :update_meal
+
   SIZES = ["0.5", "1", "1.5", "2"]
   SERVINGS = ["Cup", "Piece"]
   CARBS_ESTIMATE = ["Low", "Medium", "High"]
@@ -16,6 +18,7 @@ class MealRecord < ActiveRecord::Base
   }
 
   belongs_to :user
+  belongs_to :meal
 
   has_many :meal_record_ingredients
   has_many :ingredients, through: :meal_record_ingredients
@@ -25,6 +28,10 @@ class MealRecord < ActiveRecord::Base
 
   def self.most_recent
     order(:created_at => :desc).each.first
+  end
+
+  def self.least_recent
+    order(:created_at => :asc).each.first
   end
 
   # Returns the grams of carbs in the meal_record based on its ingredients
@@ -109,4 +116,11 @@ class MealRecord < ActiveRecord::Base
     return 1
   end
 
+  private
+  def update_meal
+    if meal.present?
+      meal.self_update
+      meal.save
+    end
+  end
 end
