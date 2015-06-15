@@ -148,8 +148,8 @@
 
 
 
-<% if @meal_records.any? %>
-  <img  src="<%= @meal_records.first.photo.url(:blurred_background) %>"
+<% if @meals.any? %>
+  <img  src="<%= @meals.first.meal_records.first.photo.url(:blurred_background) %>"
         style="
         position: fixed;
         top: -15%;
@@ -160,14 +160,5 @@
     body{
       overflow-x: hidden;
     }
-    /*body{
-      background: url("<%= @meal_records.first.photo.url(:blurred_background) %>");
-      background-position: top center;
-      background-attachment: fixed;
-    }
-
-    .container{
-      background: transparent;
-    }*/
   </style>
 <% end %>
