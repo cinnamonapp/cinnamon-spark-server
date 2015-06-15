@@ -6,7 +6,7 @@ json.meals do
     json.user do
       json.partial! "users/show", user: @user
     end
-    json.meal_records meal.meal_records.sort{|a, b| b.size <=> a.size}, partial: "meal_records/show", as: :meal_record, hide_user: true
+    json.meal_records meal.meal_records.order(:size => :desc), partial: "meal_records/show", as: :meal_record, hide_user: true
   end
 end
 json.page @page
