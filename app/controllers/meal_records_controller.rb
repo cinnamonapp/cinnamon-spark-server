@@ -27,9 +27,7 @@ class MealRecordsController < ApplicationController
     @meal_records = @meal_records.order(:created_at => :desc)
 
     respond_to do |format|
-      format.json{
-        fake_mr_cinnamon() if query_params[:page] && query_params[:page].to_i == 1
-      }
+      format.json{}
       format.html{}
     end
   end
