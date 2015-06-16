@@ -10,10 +10,6 @@ class User < ActiveRecord::Base
     large: "800x800>"
   }
 
-  def to_user_time_zone_with_date(date)
-    date + time_zone.to_i.hours
-  end
-
   def send_push_notification(message, options={})
     if self.push_notification_token.present? && message.present?
       notification = Houston::Notification.new(device: self.push_notification_token)
