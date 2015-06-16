@@ -66,7 +66,7 @@ class MealRecordsController < ApplicationController
 
     respond_to do |format|
       if @meal_record.save
-        
+
         Meal.assign_to_last_or_create_by_meal_record(@meal_record)
 
         # This sends an email to the admin team

@@ -39,13 +39,17 @@ class Meal < ActiveRecord::Base
     if should_push_meal_record
       puts "Pushing it into last meal"
       last_meal.meal_records.push meal_record
-      last_meal.save
     else
       puts "Creating last meal"
-      last_meal = Meal.create(
+      last_meal = Meal.new(
         user: user,
         meal_records: MealRecord.where(:id => meal_record.id)
       )
+    end
+    if last_meal.save
+      puts "Successfully saved"
+    else
+      puts "Errors in saving meal => #{last_meal.errors}"
     end
 
     last_meal
