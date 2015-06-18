@@ -9,6 +9,11 @@ if meal_record
   json.photo_blurred_background_url asset_url(meal_record.photo.url(:blurred_background))
   json.photo_thumb_url asset_url(meal_record.photo.url(:thumbnail))
 
+  json.likes_count number_of_likes(meal_record)
+  if params[:requesting_user_id].present?
+    json.has_been_liked_by_user has_been_liked(meal_record, User.find_by_identifier(params[:requesting_user_id]))
+  end
+
   if meal_record.user.present?
     unless defined?(hide_user) && hide_user
       json.user do

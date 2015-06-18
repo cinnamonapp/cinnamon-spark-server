@@ -5,4 +5,5 @@ module ApplicationHelper
 
     newdate
   end
+
 end

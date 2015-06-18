@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_many :meals
   has_many :meal_records
+  has_many :likes
 
   has_attached_file :profile_picture, styles: {
     nano: "20x20>",
@@ -9,6 +10,10 @@ class User < ActiveRecord::Base
     medium: "300x300>",
     large: "800x800>"
   }
+
+  def self.find_by_identifier(identifier)
+    User.find_by_device_uuid(identifier) || User.find_by_id(identifier)
+  end
 
   def send_push_notification(message, options={})
     if self.push_notification_token.present? && message.present?
