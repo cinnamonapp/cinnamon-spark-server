@@ -22,6 +22,7 @@ class MealRecord < ActiveRecord::Base
   belongs_to :meal
 
   has_many :likes
+  has_many :comments
 
   has_many :meal_record_ingredients
   has_many :ingredients, through: :meal_record_ingredients

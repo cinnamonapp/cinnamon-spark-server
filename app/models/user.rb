@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   has_many :meals
   has_many :meal_records
   has_many :likes
+  has_many :comments
 
   has_attached_file :profile_picture, styles: {
     nano: "20x20>",

@@ -5,7 +5,7 @@ class Api::V1::BaseController < ApplicationController
 
   protected
   def set_user
-    @user = User.find_by_device_uuid(params[:user_id]) || User.find_by_id(params[:user_id])
+    @user = User.find_by_identifier(params[:user_id])
   end
 
 end
