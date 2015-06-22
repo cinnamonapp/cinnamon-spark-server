@@ -11,6 +11,7 @@ if meal_record
   json.photo_thumb_url asset_url(meal_record.photo.url(:thumbnail))
 
   json.likes_count number_of_likes(meal_record)
+  json.comments_count number_of_comments(meal_record)
   if params[:requesting_user_id].present?
     json.status (meal_record.carbs_estimate_grams..meal_record.carbs_estimate_grams).compare_to(User.find_by_identifier(params[:requesting_user_id]).daily_carbs_need_per_meal_range)
     json.has_been_liked_by_user has_been_liked(meal_record, User.find_by_identifier(params[:requesting_user_id]))
