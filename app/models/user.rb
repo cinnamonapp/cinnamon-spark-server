@@ -66,6 +66,10 @@ class User < ActiveRecord::Base
     (lower_daily_carbs_need_per_meal..upper_daily_carbs_need_per_meal)
   end
 
+  def daily_carbs_need_range
+    (lower_daily_carbs_need..upper_daily_carbs_need)
+  end
+
 
   private
   def calculate_lower_need_with_upper_need(carb_need)

@@ -69,7 +69,7 @@ class Meal < ActiveRecord::Base
     self.meal_records.each do |meal_record|
       total_carbs += meal_record.carbs_estimate_grams
     end
-
+    
     self.carbs_estimate_grams = total_carbs
   end
 

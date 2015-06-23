@@ -1,4 +1,6 @@
 class Api::V1::DashboardController < Api::V1::BaseController
+  include Api::V1::DashboardHelper
+
   before_filter :set_user
 
   # The default action
@@ -65,10 +67,45 @@ class Api::V1::DashboardController < Api::V1::BaseController
   end
 
   def smart_alert
-    date = @user.current_time
-    meal_records = @user.meal_records.created_at_date(date)
+    datetime      = @user.current_time
+    houroftheday  = datetime.hour
+    meal_records  = @user.meal_records.created_at_date(datetime)
 
-    message = "Doing a great job as always my friend."
+    message = "Good morning beauty. Let's start the day with some great breakfast. "
+
+    status = carbs_compare(houroftheday, @day_used_carbs, @daily_carbs_need)
+# raise
+    # breakfast 1 - 11
+    if houroftheday < 12
+      case status
+      when -1
+        message = "Hey, you need carbs. Go and get a good breakfast!"
+      when 0
+        message = "Within range: well done my friend. You are doing great today."
+      when 1
+        message = "I hope it was delicious at least. Take it easy for the next meal though!"
+      end
+    # lunch 12 - 16
+    elsif houroftheday < 17
+      case status
+      when -1
+        message = "You need carbs to survive your day. So go and get them!"
+      when 0
+        message = "You are doing just great today. Within range: congratulations!"
+      when 1
+        message = "Take it easy my friend. Some light dinner will do good."
+      end
+    # Dinner 17 - 24
+    else
+      case status
+      when -1
+        message = "Get your carbs together my friend. Trust me you need them! Eat, eat, eat."
+      when 0
+        message = "You know your carbs well my friend. Have a good night, you did great today!"
+      when 1
+        message = "Let's call it a treat day. Good that tomorrow is another day!"
+      end
+    end
 
     if meal_records.empty?
       message = "Your daily goal is #{@daily_carbs_need}g.\nTake a picture and get started."

@@ -1,7 +1,7 @@
 class MealRecord < ActiveRecord::Base
 
   validate :photo_uniqueness
-  after_update :update_meal
+  after_save :update_meal
 
   SIZES = ["0.5", "1", "1.5", "2"]
   SERVINGS = ["Cup", "Piece"]
