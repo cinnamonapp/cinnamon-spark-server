@@ -1,6 +1,10 @@
 class MealRecord < ActiveRecord::Base
 
-  validate :photo_uniqueness
+  # validate :photo_uniqueness
+
+  validates :user,          presence: true
+  validates :created_at,    uniqueness: {scope: :user_id}
+
   after_save :update_meal
 
   SIZES = ["0.5", "1", "1.5", "2"]
@@ -128,16 +132,16 @@ class MealRecord < ActiveRecord::Base
     end
   end
 
-  def photo_uniqueness
-    if user.present?
-      last_meal_record = user.meal_records.most_recent
-      if last_meal_record.present?
-        if id != last_meal_record.id && photo_file_size.present?
-          if photo_file_size == last_meal_record.photo_file_size
-            errors.add(:photo, "can't be duplicate")
-          end
-        end
-      end
-    end
-  end
+  # def photo_uniqueness
+  #   if user.present?
+  #     last_meal_record = user.meal_records.most_recent
+  #     if last_meal_record.present?
+  #       if id != last_meal_record.id && photo_file_size.present?
+  #         if photo_file_size == last_meal_record.photo_file_size
+  #           errors.add(:photo, "can't be duplicate")
+  #         end
+  #       end
+  #     end
+  #   end
+  # end
 end

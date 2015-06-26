@@ -75,7 +75,16 @@ class MealRecordsController < ApplicationController
         format.json { render action: 'show', status: :created, location: @meal_record }
       else
         format.html { render action: 'new' }
-        format.json { render json: @meal_record.errors, status: :unprocessable_entity }
+        format.json {
+          if @meal_record.errors.messages.any? && @meal_record.errors.messages[:created_at].present?
+            if params[:ignore_if_duplicate].present?
+              render action: :show, status: :created, location: @meal_record && return
+            end
+          end
+
+          render json: @meal_record.errors, status: :unprocessable_entity
+
+        }
       end
     end
   end
