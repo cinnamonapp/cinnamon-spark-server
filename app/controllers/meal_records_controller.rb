@@ -78,7 +78,7 @@ class MealRecordsController < ApplicationController
         format.json {
           if @meal_record.errors.messages.any? && @meal_record.errors.messages[:created_at].present?
             if params[:ignore_if_duplicate].present?
-              existent_meal_record = MealRecord.where(created_at: DateTime.parse(meal_record_params[:created_at]))
+              existent_meal_record = MealRecord.where(created_at: DateTime.parse(meal_record_params[:created_at])).first
 
               render action: 'show', status: :created, location: existent_meal_record
               return
