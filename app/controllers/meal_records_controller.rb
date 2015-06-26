@@ -78,7 +78,7 @@ class MealRecordsController < ApplicationController
         format.json {
           if @meal_record.errors.messages.any? && @meal_record.errors.messages[:created_at].present?
             if params[:ignore_if_duplicate].present?
-              render json: true, status: :created, location: @meal_record
+              render action: 'show', status: :created, location: @meal_record
               return
             end
           end
