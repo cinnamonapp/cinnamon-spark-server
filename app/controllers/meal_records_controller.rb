@@ -145,6 +145,7 @@ class MealRecordsController < ApplicationController
         :title,
         :size,
         :serving,
+        :created_at,
         :carbs_estimate,
         :forced_carbs_estimate_grams,
         :photo,
