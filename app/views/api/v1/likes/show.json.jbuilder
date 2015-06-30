@@ -1,1 +1,1 @@
-json.nil
+json.like @like

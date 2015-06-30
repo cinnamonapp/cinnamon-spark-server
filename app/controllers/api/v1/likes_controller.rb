@@ -1,6 +1,14 @@
 class Api::V1::LikesController < Api::V1::BaseController
 
   before_filter :set_like, only: [:show]
+  before_filter :set_meal_record
+
+
+  def index
+    if @meal_record.present?
+      @likes = @meal_record.likes
+    end
+  end
 
   def show
   end
@@ -30,6 +38,12 @@ class Api::V1::LikesController < Api::V1::BaseController
     @like = Like.find_by_id(params[:id])
   end
 
+  def set_meal_record
+    if params[:meal_record_id].present?
+      @meal_record = MealRecord.find_by_id(params[:meal_record_id])
+    end
+  end
+
   def like_params
     params.require(:like).permit(:meal_record_id, :user_id)
   end
@@ -47,11 +61,14 @@ class Api::V1::LikesController < Api::V1::BaseController
       end
 
       # Send notification only if sender isn't the receiver
-      if sender != receiver
+      if receiver.present? && sender.present? && sender != receiver
         Rails.logger.info "Sending push notification (new like) to user (id=#{receiver.id})"
         send_push_notification_to_user(receiver, message,
           content_available: true,
-          custom_data: {meal_record_id: related_meal_record.id}
+          custom_data: {
+            meal_record_id: related_meal_record.id,
+            action: 'new_like'
+          }
         )
 
       end

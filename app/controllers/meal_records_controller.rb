@@ -106,7 +106,10 @@ class MealRecordsController < ApplicationController
         if params[:notify_user].present?
           @meal_record.user.send_push_notification(sample_notification,
             content_available: true,
-            custom_data: {meal_record_id: @meal_record.id}
+            custom_data: {
+              meal_record_id: @meal_record.id,
+              action: 'update_meal_record'
+            }
           )
         end
 
@@ -161,48 +164,6 @@ class MealRecordsController < ApplicationController
     def query_params
       params.permit(:page, :per_page)
     end
-
-
-    class MR
-      attr_accessor *(MealRecord.attribute_names.map{|a| a.to_sym})
-      attr_accessor :photo
-      attr_accessor :user
-
-      def title
-        index_for_today = Date.today.day % MrCinnamon::SENTENCES.count
-
-        return MrCinnamon::SENTENCES[index_for_today]
-      end
-
-      def carbs_estimate_grams
-        return nil
-      end
-
-      class PH
-        def url(type=nil)
-          files_count = Dir[File.join('public/resources/quirky-messages', '**', '*')].count { |file| File.file?(file) }
-          index_for_today = Date.today.day % files_count
-
-          return "/resources/quirky-messages/quirk-#{index_for_today.to_s.rjust(2, '0')}.png"
-        end
-      end
-    end
-
-    def fake_mr_cinnamon
-      mr = MR.new
-      mr.id = -1
-      mr.title = ""
-      mr.size = 1
-      # mr.created_at = DateTime.now
-      # mr.updated_at = DateTime.now
-
-      mr.photo = MR::PH.new
-
-      mr.user = User.find_or_create_by_username("Mr. Cinnamon")
-
-      @meal_records = @meal_records.to_a.insert(2, mr)
-    end
-
 
     private
     def sample_notification

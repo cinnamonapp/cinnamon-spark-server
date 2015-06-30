@@ -54,7 +54,10 @@ class Api::V1::CommentsController < Api::V1::BaseController
         Rails.logger.info "Sending push notification (new comment) to user (id=#{receiver.id})"
         send_push_notification_to_user(receiver, message,
           content_available: true,
-          custom_data: {meal_record_id: related_meal_record.id}
+          custom_data: {
+            meal_record_id: related_meal_record.id,
+            action: 'new_comment'
+          }
         )
 
       end

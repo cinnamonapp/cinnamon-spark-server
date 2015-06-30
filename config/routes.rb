@@ -3,7 +3,7 @@ CinnamonSparkServer::Application.routes.draw do
   resources :ingredients
 
   resources :likes
-  
+
   resources :comments
 
   # Users
@@ -38,6 +38,7 @@ CinnamonSparkServer::Application.routes.draw do
 
       resources :meal_records do
         resources :comments
+        resources :likes
       end
     end
   end
