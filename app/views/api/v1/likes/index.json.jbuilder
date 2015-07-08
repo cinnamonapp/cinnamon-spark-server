@@ -8,7 +8,7 @@ json.likes @likes do |like|
 
   if like.meal_record.present?
     json.meal_record do
-      json.partial! 'meal_records/show', meal_record: like.meal_record
+      json.partial! 'meal_records/show', meal_record: like.meal_record, hide_user: true
     end
   end
 
