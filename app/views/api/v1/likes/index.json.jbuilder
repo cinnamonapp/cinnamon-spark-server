@@ -6,4 +6,10 @@ json.likes @likes do |like|
     end
   end
 
+  if like.meal_record.present?
+    json.meal_record do
+      json.partial! 'meal_records/show', meal_record: like.meal_record
+    end
+  end
+
 end
