@@ -33,9 +33,40 @@ class MealRecordsController < ApplicationController
   end
 
   # GET /meal_records/estimate
+  PRIORITY_ESTIMATE_WITHIN_MINUTES = 60.minutes
   def estimate
+    needs_estimation = MealRecord.where("meal_records.forced_carbs_estimate_grams IS NULL")
+    needs_estimation = needs_estimation.order(created_at: :desc) # Most recent first
+
+    # MealRecords that haven't received an estimation created within #{PRIORITY_ESTIMATE_WITHIN_MINUTES}
+    @priority_list = needs_estimation.where("meal_records.created_at > ?", DateTime.now - PRIORITY_ESTIMATE_WITHIN_MINUTES)
+
+    # MealRecords that simply need estimation
+    @needs_estimation = needs_estimation.where("meal_records.created_at < ?", DateTime.now - PRIORITY_ESTIMATE_WITHIN_MINUTES)
+
+    # Ids of MealRecords with associated ingredients
     with_ingredient_ids = MealRecord.includes(:meal_record_ingredients).where("meal_record_ingredients.id IS NOT NULL").map(&:id)
-    @meal_records = MealRecord.where("meal_records.carbs_estimate IS NULL AND meal_records.id NOT IN (?)", with_ingredient_ids).order(:created_at => :desc)
+    does_not_need_estimation = MealRecord.where("meal_records.forced_carbs_estimate_grams IS NOT NULL")
+    # MealRecords that needs only ingredients estimation
+    @needs_ingredients_only = does_not_need_estimation.where("meal_records.id NOT IN (?)", with_ingredient_ids)
+
+    # Redirect automatically to the most important estimation
+    if params[:auto_select]
+      next_meal_record = nil
+
+      if @priority_list.any?
+        next_meal_record = @priority_list.first
+      elsif @needs_estimation.any?
+        next_meal_record = @needs_estimation.first
+      elsif @needs_ingredients_only.any?
+        next_meal_record = @needs_ingredients_only.first
+      end
+
+      if next_meal_record.present?
+        redirect_to edit_meal_record_url(@needs_estimation.first, auto_selected: true, easy_mode: true)
+        return
+      end
+    end
   end
 
   # GET /meal_records/1
@@ -50,6 +81,12 @@ class MealRecordsController < ApplicationController
 
   # GET /meal_records/1/edit
   def edit
+    if params[:from_email].present? && params[:easy_mode].present?
+      if @meal_record.forced_carbs_estimate_grams.present?
+        # Means that somebody has already estimated this meal_record
+        redirect_to meal_records_estimate_url(auto_select: true), notice: 'That meal was already estimated.'
+      end
+    end
   end
 
   # POST /meal_records
@@ -116,7 +153,7 @@ class MealRecordsController < ApplicationController
 
         format.html {
           redirect_to @meal_record, notice: 'Meal record was successfully updated.' unless params[:easy_mode]
-          redirect_to meal_records_estimate_url, notice: 'Meal record was successfully updated.' if params[:easy_mode]
+          redirect_to meal_records_estimate_url(auto_select: true), notice: 'Meal record was successfully updated.' if params[:easy_mode]
         }
         format.json { head :no_content }
       else

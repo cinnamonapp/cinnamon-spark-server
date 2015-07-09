@@ -3,15 +3,59 @@
 <table>
   <thead>
     <tr>
-      <th>Photo</th>
+      <th>Priority</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @meal_records.each do |meal_record| %>
+
+    <% @priority_list.each do |meal_record| %>
       <tr>
         <td><%= link_to image_tag(meal_record.photo.url(:medium)), edit_meal_record_path(meal_record, easy_mode: true) %></td>
       </tr>
     <% end %>
+
+  </tbody>
+</table>
+
+<br>
+<br>
+
+<table>
+  <thead>
+    <tr>
+      <th>Simply needs estimation</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <% @needs_estimation.each do |meal_record| %>
+      <tr>
+        <td><%= link_to image_tag(meal_record.photo.url(:medium)), edit_meal_record_path(meal_record, easy_mode: true) %></td>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>
+
+<br>
+<br>
+
+<table>
+  <thead>
+    <tr>
+      <th>Needs ingredients only</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <% @needs_ingredients_only.each do |meal_record| %>
+      <tr>
+        <td><%= link_to image_tag(meal_record.photo.url(:medium)), edit_meal_record_path(meal_record, easy_mode: true) %></td>
+      </tr>
+    <% end %>
+
   </tbody>
 </table>

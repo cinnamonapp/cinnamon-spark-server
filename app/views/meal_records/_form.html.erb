@@ -23,61 +23,67 @@
         <%= image_tag @meal_record.photo.url(:large), class: "img-responsive" %>
       <% end %>
       <br>
-      <% unless params[:easy_mode] %>
-        <%= f.input :photo %>
-        <%= f.input :carbs_estimate, collection: MealRecord::CARBS_ESTIMATE.each_with_index.map{|size, index| [size, index + 1]} %>
-      <% end %>
+
+      <%= f.input :title %>
+
       <div class="form-group">
           <%= f.label :user %>
-          <%= link_to @meal_record.user.username, user_url(@meal_record.user) if @meal_record.user %>
-          <%= "No user" unless @meal_record.user %>
+          <br>
+          <%= link_to((@meal_record.user.username || "Anonymous"), user_url(@meal_record.user), class: 'string optional form-control', disabled: true) if @meal_record.user %>
+          <% unless @meal_record.user %>
+            <div class="string optional form-control" disabled>
+              No user
+            </div>
+          <% end %>
       </div>
+
+      <% unless params[:easy_mode] %>
+        <%= f.input :photo %>
+        <div class="form-inline clearfix">
+          <%= f.input :created_at %>
+        </div>
+        <br>
+        <%= f.input :carbs_estimate, collection: MealRecord::CARBS_ESTIMATE.each_with_index.map{|size, index| [size, index + 1]} %>
+      <% end %>
     </div>
 
 
     <div class="col-sm-7">
-      <div class="spoiler">
+      <!-- <div class="spoiler">
         <div class="spoiler-message">
           <span class="spoiler-custom-message">Compressed.</span><br><a href="javascript:$('.spoiler').removeClass('hide-content');">Press to expand.</a>
         </div>
         <%= f.input :title %>
         <%= f.input :size, collection: MealRecord::SIZES.each_with_index.map{|size, index| [size, index + 1]} %>
         <%= f.input :serving, collection: MealRecord::SERVINGS.each_with_index.map{|serving, index| [serving, index + 1]} %>
-      </div>
+      </div> -->
 
+      <% unless @meal_record.forced_carbs_estimate_grams.present? %>
+        <span class="label label-<%= (@meal_record.created_at > DateTime.now - 60.minutes) ? 'warning' : 'danger' %> pull-right">Waiting since <%= time_ago_in_words(@meal_record.created_at)%></span>
+      <% end %>
+      <%= f.input :forced_carbs_estimate_grams, placeholder: "Guess the grams of carbohydrates in this dish", label: "Carbs estimate in grams" %>
 
-
-      <div class="form-group select optional meal_record_fat_secret_ingredients">
+      <div class="form-group select optional meal_record_fat_secret_ingredients" >
         <label class="select optional control-label">Ingredients</label>
+        <small class="pull-right">Try to recognise ingredients in this dish <i class="hidden-xs">(ex. 'Apples', 'Eggs')</i></small>
         <div class="food-picker" id="foodPicker">
-          <input type="text" placeholder="Type to search on FatSecret..." class="input-autocomplete">
+          <input type="text" placeholder="Type to search in ingredients database..." class="input-autocomplete">
           <ul class="food-picker-foods no-margin">
           </ul>
-
-          <% unless @meal_record.forced_carbs_estimate_grams %>
-            <a href="#" onclick="$('#forced_carbs_estimate_grams').removeClass('hidden'); $(this).remove();">Want to force carbs estimate?</a>
-            <!-- true -->
-          <% end %>
         </div>
       </div>
 
-      <% unless @meal_record.forced_carbs_estimate_grams %>
-      <div id="forced_carbs_estimate_grams" class="hidden">
-      <% end %>
-        <%= f.input :forced_carbs_estimate_grams, placeholder: "Leave blank to use the automatic estimate" %>
-      <% unless @meal_record.forced_carbs_estimate_grams %>
-      </div>
-      <% end %>
+      <hr>
 
+      <div class="actions text-right">
+        <label style="margin-right: 10px;"><input type="checkbox" name="notify_user" value="1" <%= "checked" unless @meal_record.forced_carbs_estimate_grams.present? %>> Notify user</label>
+        <%= f.button :submit, value: (params[:auto_selected].present?) ? "Update & Next" : "Update dish", :class => "btn btn-large btn-primary" %>
+      </div>
     </div>
   </div>
 
   <hr>
 
-  <div class="actions">
-    <%= f.button :submit, :class => "btn btn-large btn-primary" %>
-    <label><input type="checkbox" name="notify_user" value="1" checked> Notify user</label>
-  </div>
 <% end %>
 
 <style media="screen">
@@ -125,11 +131,11 @@
           "<li>"
         + "<div class='row'>"
           + "<div class='col-xs-8'>"
-            + "<h5 class='list-group-item-heading'>" + suggested_food.value + "</h5>"
+            + "<h5 class='list-group-item-heading' style='margin-top: 7px;'>" + suggested_food.value + "</h5>"
             + "<p class='list-group-item-text'>"
-              + "<span class='label label-" + ((suggested_food.data.carbsPerCup === null) ? "danger" : "default") + "'>"
-                + ((suggested_food.data.carbsPerCup === null) ? "No carbs per cup" : (suggested_food.data.carbsPerCup + " carbs per cup (g)"))
-              + "</span>"
+              // + "<span class='label label-" + ((suggested_food.data.carbsPerCup === null) ? "danger" : "default") + "'>"
+              //   + ((suggested_food.data.carbsPerCup === null) ? "No carbs per cup" : (suggested_food.data.carbsPerCup + " carbs per cup (g)"))
+              // + "</span>"
             + "</p>"
           + "</div>"
           + "<div class='col-xs-2' style='padding:0; text-align: right;'>"

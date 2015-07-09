@@ -17,3 +17,32 @@
 //= require jquery.autocomplete.js
 //= require circle-progress
 //= require_tree .
+
+
+$(document).ready(function () {
+
+  $('[data-method]').click(function(e){
+    e.preventDefault();
+    e.stopPropagation();
+
+    var record_path = $(this).attr('href');
+
+    var container = $(this).parents("tr");
+
+    console.log(container);
+
+    if(confirm("Are you sure?")){
+      console.log(record_path);
+      $.ajax({
+          url: record_path + ".json",
+          type: 'DELETE',
+          success: function(result) {
+              // Do something with the result
+              console.log("Successfully deleted.");
+              container.fadeOut(500, function() { $(this).remove(); });
+          }
+      });
+    }
+
+  });
+});

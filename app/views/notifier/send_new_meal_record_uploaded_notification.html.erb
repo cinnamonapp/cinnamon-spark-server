@@ -2,12 +2,12 @@
   <head>
   </head>
   <body>
-    <%= link_to (@user.username || "An amazing user"), user_url(@user) %> has just uploaded a new dish (his <%= @user.meal_records.count.ordinalize %>).<br><br>
+    <%= link_to (@user.username || "An anonymous user"), user_url(@user) %> has just uploaded a new dish (his <%= @user.meal_records.count.ordinalize %>).<br><br>
 
-    Do you want to evaluate the carbs of <%= (@user.username || "the user") %>'s dish? <%= link_to "Go here", edit_meal_record_url(@meal_record, easy_mode: true) %>
+    Do you want to evaluate the carbs of <%= (@user.username || "the user") %>'s dish? <%= link_to "Go here", edit_meal_record_url(@meal_record, easy_mode: true, from_email: true, auto_selected: true) %>
 
     <hr>
 
-    <%= link_to image_tag(@meal_record.photo.url(:medium)), edit_meal_record_url(@meal_record, easy_mode: true) %>
+    <%= link_to image_tag(@meal_record.photo.url(:medium)), edit_meal_record_url(@meal_record, easy_mode: true, from_email: true, auto_selected: true) %>
   </body>
 </html>

@@ -6,4 +6,7 @@
 <%= render 'form' %>
 
 <%= link_to 'Show', @meal_record %> |
+<% if params[:easy_mode].present? %>
+  <%= link_to 'Advanced edit', edit_meal_record_url(@meal_record) %> |
+<% end %>
 <%= link_to 'Back', meal_records_path %>
