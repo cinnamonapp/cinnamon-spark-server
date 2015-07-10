@@ -63,7 +63,7 @@ class MealRecordsController < ApplicationController
       end
 
       if next_meal_record.present?
-        redirect_to edit_meal_record_url(@needs_estimation.first, auto_selected: true, easy_mode: true)
+        redirect_to edit_meal_record_url(next_meal_record, auto_selected: true, easy_mode: true)
         return
       end
     end
