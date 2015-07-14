@@ -1,6 +1,7 @@
 namespace :notifications do
   task :send_picture_reminder => :environment do |t, args|
 
+    include ApplicationHelper
     include ActionView::Helpers::DateHelper
 
     @users = User.all
@@ -33,6 +34,12 @@ namespace :notifications do
 
         unless meal_records_within.any?
           puts "Rake => Send notification to user with id=#{user.id} \n        - user_hour=#{user_hour} - message='#{message}'"
+          send_push_notification_to_user(user, message,
+            content_available: true,
+            custom_data: {
+              action: 'take_picture_reminder'
+            }
+          )
         else
           puts "Rake => User with id=#{user.id} has already uploaded (at least) a picture \n        - last_created='#{time_ago_in_words(meal_records_within.most_recent.created_at)} ago'"
         end
