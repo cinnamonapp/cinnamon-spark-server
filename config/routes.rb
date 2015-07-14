@@ -31,6 +31,7 @@ CinnamonSparkServer::Application.routes.draw do
       namespace :fat_secret do
         resources :foods do
           get 'carbs_per_cup' => 'foods#carbs_per_cup'
+          get 'carbs_per_servings' => 'foods#carbs_per_servings'
         end
       end
 

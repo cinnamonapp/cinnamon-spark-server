@@ -15,6 +15,10 @@ class Api::V1::FatSecret::FoodsController < Api::V1::FatSecret::BaseController
     @food = FatSecret.carbs_per_cup_food(params[:id] || params[:food_id])["food"]
   end
 
+  def carbs_per_servings
+    @food = FatSecret.carbs_per_servings(params[:id] || params[:food_id])["food"]
+  end
+
   private
 
   def set_food

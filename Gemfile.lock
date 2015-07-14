@@ -11,7 +11,7 @@ GIT
 
 GIT
   remote: https://github.com/cinnamonapp/Fatsecret.git
-  revision: 34a9d0d9f38d7003f513ee4a50546f112ccc75a0
+  revision: ddaa42e4729e6a0526fb8892eed730243424bac4
   specs:
     fatsecret-api (0.1.0)
 
