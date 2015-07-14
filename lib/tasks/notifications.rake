@@ -32,7 +32,7 @@ namespace :notifications do
         meal_records_within = user.meal_records.created_within(2.hours)
 
         unless meal_records_within.any?
-          puts "Rake => Send notification to user with id=#{user.id} \n        - message='#{message}'"
+          puts "Rake => Send notification to user with id=#{user.id} \n        - user_hour=#{user_hour} - message='#{message}'"
         else
           puts "Rake => User with id=#{user.id} has already uploaded (at least) a picture \n        - last_created='#{time_ago_in_words(meal_records_within.most_recent.created_at)} ago'"
         end
