@@ -132,8 +132,12 @@
         servings += "<li style='padding: 2px;font-size:10px;border:none;border-top:1px solid #eee;border-radius:0;'>"
                     + "<b>" + serving.serving_description + ":</b>"
                     + "<span class='pull-right'>" + serving.carbohydrate + "g of carbs" + "</span>"
-                  + "</li>"
+                  + "</li>";
       })
+
+      if(suggested_food.data.carbsPerServings.length == 0){
+        servings += "<li style='padding: 2px;font-size:10px;border:none;border-top:1px solid #eee;border-radius:0;'>Fetching nutrition information</li>";
+      }
 
       list.append(
           "<li>"
@@ -199,7 +203,10 @@
       };
     },
     onSelect: function foodPickerOnSelectFn(suggestion) {
-      var found = $.inArray(suggestion, pickedFood, 0) > -1;
+      var suggestionFoodId = suggestion.data.foodId;
+      var pickedFoodFoodIds = pickedFood.map(function(food){return food.data.foodId.toString()});
+      var found = $.inArray(suggestionFoodId, pickedFoodFoodIds, 0) > -1;
+
       if(!found){
 
         pickedFood.unshift(suggestion);
@@ -219,6 +226,16 @@
   })
 
   reloadList()
+
+  var fetchCarbsPerServing = function () {
+    $.each(pickedFood, function (index, food) {
+      $.get("/api/v1/fat_secret/foods/" + food.data.foodId + "/carbs_per_servings").success(function (response) {
+        food.data.carbsPerServings = response.food.servings;
+        reloadList();
+      })
+    });
+  };
+  fetchCarbsPerServing()
 
   $("#edit_meal_record_695").submit(function (event) {
     var percentages = $(".meal_record_fat_secret_ingredients_percentage").map(function () {
