@@ -34,6 +34,8 @@ class MealRecord < ActiveRecord::Base
 
   scope :created_at_date, lambda{|date| where("DATE(meal_records.created_at) = DATE(?)", date)}
 
+  scope :created_within, lambda{|interval| where("meal_records.created_at > ?", DateTime.now.utc - interval)}
+
   def self.most_recent
     order(:created_at => :desc).each.first
   end
