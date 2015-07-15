@@ -34,7 +34,7 @@ namespace :notifications do
 
         unless meal_records_within.any?
           puts "Rake => Send notification to user with id=#{user.id} \n        - user_hour=#{user_hour} - message='#{message}'"
-          send_push_notification_to_user(user, message,
+          user.send_push_notification(message,
             content_available: true,
             custom_data: {
               action: 'take_picture_reminder'
