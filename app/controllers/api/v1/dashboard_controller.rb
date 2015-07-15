@@ -71,7 +71,7 @@ class Api::V1::DashboardController < Api::V1::BaseController
     houroftheday  = datetime.hour
     meal_records  = @user.meal_records.created_at_date(datetime)
 
-    message = "Good morning beauty. Let's start the day with some great breakfast. "
+    message = "Good morning, sunshine! How about breakfast to fuel your day?"
 
     status = carbs_compare(houroftheday, @day_used_carbs, @daily_carbs_need)
 # raise
@@ -79,31 +79,31 @@ class Api::V1::DashboardController < Api::V1::BaseController
     if houroftheday < 12
       case status
       when -1
-        message = "Hey, you need carbs. Go and get a good breakfast!"
+        message = "You can do better than that. Healthy carbs are calling your name!"
       when 0
-        message = "Within range: well done my friend. You are doing great today."
+        message = "Well done, my friend. You're off to a great start."
       when 1
-        message = "I hope it was delicious at least. Take it easy for the next meal though!"
+        message = "Don't spend all your carbs in one sitting. Balance is the key."
       end
     # lunch 12 - 16
     elsif houroftheday < 17
       case status
       when -1
-        message = "You need carbs to survive your day. So go and get them!"
+        message = "Think you can slip that carbless meal past me? Think again."
       when 0
-        message = "You are doing just great today. Within range: congratulations!"
+        message = "Well, look who's mastering healthy eating! Looks like I'm useful after all."
       when 1
-        message = "Take it easy my friend. Some light dinner will do good."
+        message = "Got a little carried away? Plan for a light dinner, and we'll pretend it never happened."
       end
     # Dinner 17 - 24
     else
       case status
       when -1
-        message = "Get your carbs together my friend. Trust me you need them! Eat, eat, eat."
+        message = "You're so low on carbs even I'm losing energy. Come on - help me, help you."
       when 0
-        message = "You know your carbs well my friend. Have a good night, you did great today!"
+        message = "Someone sure knows their carbs. Great work! But there goes my job security."
       when 1
-        message = "Let's call it a treat day. Good that tomorrow is another day!"
+        message = "Let that be our little treat. Treats are good, but so is tomorrow for a fresh start."
       end
     end
 
